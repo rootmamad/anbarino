@@ -5,7 +5,16 @@ from django.core.exceptions import ValidationError
 
 # Create your models here.
 
+class UserBalance(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    balance = models.PositiveIntegerField(default=0)
 
+    def deduct_balance(self, amount):
+        if self.balance >= amount:
+            self.balance -= amount
+            self.save()
+            return True
+        return False
 
 
 
@@ -27,13 +36,24 @@ class Transaction(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPES)
+    is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 
     def clean(self):
-        #  بررسی تعداد خرید و موجودی محصول
+
+        user_balance = UserBalance.objects.get(user=self.user)
+        total_cost = self.quantity * self.product.price
+
+
+
+
+
         if self.transaction_type == self.PURCHASE:
+            if total_cost > user_balance.balance:
+                raise ValidationError(f"{self.user.username} موجودی کافی برای خرید ندارد!")
+
             if self.quantity > self.product.quantity:
                 raise ValidationError(f"موجودی محصول {self.product.name} کافی نیست! فقط {self.product.quantity} عدد موجود است.")
 
@@ -48,7 +68,8 @@ class Transaction(models.Model):
                 raise ValidationError(f"{self.user.username} این محصول را نخریده یا تعداد وارد شده بیشتر از مقدار خریداری‌شده است!")
 
     def save(self, *args, **kwargs):
-        self.clean()  # اعتبارسنجی قبل از ذخیره‌سازی
+        self.clean()
+
         super().save(*args, **kwargs)
 
 

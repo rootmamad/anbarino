@@ -2,6 +2,7 @@ from django.db import models
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
+    price = models.PositiveIntegerField(default=0)
     quantity = models.PositiveIntegerField(default=0)
     purchased_quantity = models.PositiveIntegerField(default=0)
     returned_quantity = models.PositiveIntegerField(default=0)
