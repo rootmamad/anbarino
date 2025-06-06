@@ -8,7 +8,7 @@ class Product(models.Model):
     damaged_quantity = models.PositiveIntegerField(default=0)
 
     def update_status(self):
-        self.quantity = self.purchased_quantity - (self.returned_quantity + self.damaged_quantity)
+        self.quantity = self.purchased_quantity + self.returned_quantity - self.purchased_quantity
         self.save()
     def __str__(self):
         return self.name

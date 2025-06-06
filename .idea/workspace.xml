@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="hello!">
-      <change afterPath="$PROJECT_DIR$/anbarino/transaction/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/anbr.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/anbr.iml" afterDir="false" />
+    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/admins/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/admins/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/admins/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/admins/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/anbarino/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/anbarino/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/products/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/transaction/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/transaction/signals.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,11 +108,19 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۰۴" />
       <updated>1749224314268</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL‎−۰۰۰۰۵" summary="2">
+      <option name="closed" value="true" />
+      <created>1749235393440</created>
+      <option name="number" value="LOCAL‎−۰۰۰۰۵" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۰۵" />
+      <updated>1749235393440</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="hello!" />
-    <option name="LAST_COMMIT_MESSAGE" value="hello!" />
+    <MESSAGE value="2" />
+    <option name="LAST_COMMIT_MESSAGE" value="2" />
   </component>
 </project>
