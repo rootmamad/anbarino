@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/anbr.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="hello!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/users/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/users/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/users/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/users/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/users/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/users/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/users/views.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +20,25 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="mamad &lt;137838327+rootmamad@users.noreply.github.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "rootmamad"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/rootmamad/anbarino.git",
+    "accountId": "436004cd-7dab-432b-9dab-265a1684f516"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -35,6 +55,12 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/anbari"
+  },
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory",
+      "repository"
+    ]
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -52,6 +78,32 @@
       <option name="presentableId" value="Default" />
       <updated>1748954738803</updated>
     </task>
+    <task id="LOCAL‎−۰۰۰۰۱" summary="hello!">
+      <option name="closed" value="true" />
+      <created>1749220738893</created>
+      <option name="number" value="LOCAL‎−۰۰۰۰۱" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۰۱" />
+      <updated>1749220738893</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۰۲" summary="hello!">
+      <option name="closed" value="true" />
+      <created>1749220751094</created>
+      <option name="number" value="LOCAL‎−۰۰۰۰۲" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۰۲" />
+      <updated>1749220751094</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۰۳" summary="hello!">
+      <option name="closed" value="true" />
+      <created>1749222010370</created>
+      <option name="number" value="LOCAL‎−۰۰۰۰۳" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۰۳" />
+      <updated>1749222010370</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="hello!" />
+    <option name="LAST_COMMIT_MESSAGE" value="hello!" />
   </component>
 </project>
