@@ -57,7 +57,6 @@ class Transaction(models.Model):
             if self.quantity > self.product.quantity:
                 raise ValidationError(f"موجودی محصول {self.product.name} کافی نیست! فقط {self.product.quantity} عدد موجود است.")
 
-        # بررسی اینکه اگر تراکنش مرجوعی یا خرابی بود، کاربر باید قبلاً این محصول را خریده باشد و تعداد بیش از خریداری‌شده نباشد
         if self.transaction_type in [self.RETURNED, self.DAMAGED]:
             total_purchased = Transaction.objects.filter(
                 user=self.user, product=self.product, transaction_type=self.PURCHASE

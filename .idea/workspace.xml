@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="Merge remote-tracking branch 'anbarino/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;anbarino/products/models.py&#10;#&#9;anbarino/transaction/signals.py">
+    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="4">
+      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/anbarino/products/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/admins/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/admins/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/transaction/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/transaction/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/anbarino/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/anbarino/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/anbarino/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/anbarino/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/transaction/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/transaction/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/transaction/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/transaction/signals.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +21,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="Python Script" />
       </list>
     </option>
@@ -58,6 +59,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.models.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -137,13 +139,21 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۰۷" />
       <updated>1749243965971</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL‎−۰۰۰۰۸" summary="4">
+      <option name="closed" value="true" />
+      <created>1749250284135</created>
+      <option name="number" value="LOCAL‎−۰۰۰۰۸" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۰۸" />
+      <updated>1749250284135</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="hello!" />
     <MESSAGE value="2" />
     <MESSAGE value="3" />
-    <option name="LAST_COMMIT_MESSAGE" value="3" />
+    <MESSAGE value="4" />
+    <option name="LAST_COMMIT_MESSAGE" value="4" />
   </component>
 </project>
