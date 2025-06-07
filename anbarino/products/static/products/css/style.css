@@ -1,0 +1,56 @@
+#lk{
+    color:blue
+}
+#kj{
+    max-width:180px;
+
+}
+
+#ui{
+    margin-left: 60px;
+}
+
+#re {
+margin-right: 13px;
+}
+
+#user-icon {
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.auth-links{
+    text-decoration: none; /* حذف خط زیر لینک */
+    color: black; /* رنگ پیش‌فرض متن */
+}
+
+.auth-links:hover {
+    color: #008000; /* تغییر رنگ هنگام هاور شدن */
+    transition: color 0.5s ease-in-out;
+}
+
+
+
+.hover-box {
+      position: relative;
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+.hover-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #3498db;
+  transition: width 0.3s ease;
+}
+
+.hover-box:hover::before {
+  width: 100%;
+}

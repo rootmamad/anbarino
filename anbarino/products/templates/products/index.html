@@ -1,46 +1,86 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'products/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body style="background-color:#f5f5f5">
-<div>
+<body style="background-color:#f8f9fa;">
+
+{% if user.is_authenticated %}
+
+<div >
   سلام
   <br>
-  خوبی
+  {{user.username}}
 </div>
 
+{% else %}
 
+{% endif %}
 
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <div class="user-auth">  <i class="fas fa-user" id="user-icon"></i>  <a class="auth-links hover-box" href="#">  ورود</a> | <a class="auth-links hover-box" href="#"> ثبت نام</a>  </div>
+    <a class="navbar-brand hover-box" id="ui" href="#">صفحه اصلی</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        <li class="nav-item hover-box">
+          <a class="nav-link active" aria-current="page" href="#">لیست محصولات</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+        <li class="hover-box hover-box">
+          <a class="nav-link" href="#">لیست خرابی</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link " href="x.com">Disabled</a>
+        <li class="nav-item hover-box">
+          <a class="nav-link " href="x.com">لیست مرجوعی</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
+        <button class="btn btn-outline-success" type="submit" id="re"><i class="fas fa-search"></i></button>
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
+
       </form>
+      <img  src="{% static 'products/images/10.png' %}" id="kj">
     </div>
   </div>
 </nav>
+
+
+
+<div id="carouselExampleIndicators" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'products/images/1.jpg' %}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'products/images/2.jpg' %}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'products/images/3.jpg' %}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
