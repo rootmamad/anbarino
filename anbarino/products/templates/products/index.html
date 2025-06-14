@@ -13,7 +13,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-  <!-- استایل اختصاصی -->
+  <!-- CSS اختصاصی -->
   <link href="{% static 'products/css/style.css' %}" rel="stylesheet">
 
   <style>
@@ -21,6 +21,27 @@
       background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
       font-family: Vazir, sans-serif;
     }
+
+    .navbar {
+      background: linear-gradient(to left, #0f766e, #14b8a6);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .auth-links-wrapper {
+      gap: 6px;
+      color: #fff;
+    }
+
+    .auth-links {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .auth-links:hover {
+      color: #facc15;
+    }
+
+
 
     footer {
       background-color: #0f766e;
@@ -43,38 +64,46 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center auth-links-wrapper">
-        <i class="fas fa-user" id="user-icon"></i>
-        <a href="#" class="auth-links">ورود</a>
-        <span class="mx-1">|</span>
-        <a href="#" class="auth-links">ثبت‌نام</a>
-      </div>
-      <a class="navbar-brand mx-3" href="#">
-        <img src="{% static 'products/images/10.png' %}" alt="logo" id="brand-logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#mainNav" aria-controls="mainNav"
-              aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="#">خانه</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">لیست کالا‌ها</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">استعلام موجودی</a></li>
-        </ul>
+ <nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+
+    <!-- برند سایت -->
+    <a class="navbar-brand site-brand" href="#">ANBARINO</a>
+
+    <!-- دکمه منوی موبایل -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="تغییر منو">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- کل محتوا -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- منوی اصلی نزدیک به برند -->
+      <ul class="navbar-nav ms-4 mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="#">خانه</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">لیست کالاها</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">استعلام موجودی</a></li>
+      </ul>
+
+      <!-- جستجو + ورود/ثبت‌نام -->
+      <div class="ms-auto d-flex align-items-center gap-3">
         <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="Search">
-          <button class="btn btn-success btn-sm" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
+          <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="جستجو">
+          <button class="btn btn-success btn-sm" type="submit"><i class="fas fa-search"></i></button>
         </form>
+        <div class="d-flex align-items-center auth-links-wrapper">
+          <i class="fas fa-user" id="user-icon"></i>
+          <a href="#" class="auth-links">ورود</a>
+          <span class="mx-1">|</span>
+          <a href="#" class="auth-links">ثبت‌نام</a>
+        </div>
       </div>
+
     </div>
-  </nav>
+  </div>
+</nav>
+
+
 
   <!-- CAROUSEL -->
   <div id="carouselExampleIndicators" class="carousel slide my-4">

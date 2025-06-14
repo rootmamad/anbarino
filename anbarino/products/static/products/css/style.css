@@ -1,40 +1,46 @@
 /* ===== Navbar ===== */
 .navbar {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 0.4rem 1rem;
+  background: linear-gradient(to left, #0f766e, #14b8a6);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
 }
-#brand-logo {
-  height: 40px;
-}
-.auth-links-wrapper {
-  font-size: 14px;
-  color: #333;
-}
+
 #user-icon {
   font-size: 18px;
   margin-left: 6px;
+  color: #fff;
 }
+
+.auth-links-wrapper {
+  font-size: 14px;
+  color: #fff;
+  gap: 6px;
+}
+
 .auth-links {
-  color: #333;
+  color: #fff;
   text-decoration: none;
   margin: 0 4px;
   transition: color 0.3s;
 }
+
 .auth-links:hover {
-  color: #008000;
+  color: #facc15;
 }
+
 .navbar .nav-link {
   font-size: 15px;
-  color: #333;
+  color: #fff;
   position: relative;
-  padding: 0.5rem 0.7rem;
+  padding: 0.5rem 0.9rem;
   transition: color 0.3s;
 }
+
 .navbar .nav-link:hover,
 .navbar .nav-link.active {
-  color: #008000;
+  color: #facc15;
 }
+
 .navbar .nav-link::after {
   content: "";
   position: absolute;
@@ -42,9 +48,10 @@
   left: 0;
   height: 2px;
   width: 0;
-  background-color: #008000;
+  background-color: #facc15;
   transition: width 0.3s;
 }
+
 .navbar .nav-link:hover::after,
 .navbar .nav-link.active::after {
   width: 100%;
@@ -54,19 +61,23 @@
 .carousel-item img {
   height: 300px;
   object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* ===== Slider Sections ===== */
+/* ===== Section Heading ===== */
 .section-heading {
   display: inline-block;
-  background-color: #008000;
+  background: linear-gradient(to left, #10b981, #22d3ee);
   color: #fff;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 18px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 20px;
+  margin-bottom: 10px;
   animation: fadeIn 0.5s;
 }
 
+/* ===== Slider Wrapper ===== */
 .slider-wrapper {
   display: flex;
   overflow-x: auto;
@@ -75,6 +86,7 @@
   scrollbar-width: none;
   animation: fadeIn 0.6s;
 }
+
 .slider-wrapper::-webkit-scrollbar {
   display: none;
 }
@@ -85,15 +97,17 @@
   flex: 0 0 auto;
   width: 180px;
   height: 300px;
-  background-color: #add8e6;
+  background: linear-gradient(135deg, #ffffff, #e0f7fa);
+  border: 1px solid #d1d5db;
   border-radius: 10px;
   padding: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
 }
+
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .product-image {
@@ -112,14 +126,17 @@
   text-align: center;
   width: calc(100% - 24px);
 }
+
 .product-text .name {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 4px;
+  color: #0f172a;
 }
+
 .product-text .price {
   font-size: 13px;
-  color: #333;
+  color: #475569;
 }
 
 .barcode {
@@ -134,7 +151,7 @@
   position: absolute;
   bottom: 10px;
   right: 8px;
-  background-color: #008000;
+  background-color: #0f766e;
   color: #fff;
   padding: 4px 10px;
   border-radius: 5px;
@@ -142,74 +159,59 @@
   text-decoration: none;
   transition: background-color 0.3s;
 }
+
 .view-btn:hover {
-  background-color: #006400;
+  background-color: #0d9488;
+}
+
+/* ===== Footer ===== */
+footer {
+  background-color: #0f766e;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #facc15;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+footer a:hover {
+  color: #fff;
 }
 
 /* ===== Animations ===== */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-body {
-  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-  font-family: "Vazir", sans-serif;
-}
-
-/* ===== Navbar ===== */
-.navbar {
-  background: linear-gradient(to left, #0f766e, #14b8a6);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-.auth-links-wrapper,
-.navbar .nav-link {
-  color: #fff;
-}
-.auth-links:hover,
-.navbar .nav-link:hover,
-.navbar .nav-link.active {
-  color: #facc15;
-}
-.navbar .nav-link::after {
-  background-color: #facc15;
-}
-
-/* ===== Carousel ===== */
-.carousel-item img {
-  height: 320px;
-  border-radius: 10px;
-  object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* ===== Section Heading ===== */
-.section-heading {
-  background: linear-gradient(to left, #10b981, #22d3ee);
-  font-size: 20px;
-  padding: 10px 18px;
-}
-
-/* ===== Product Card ===== */
-.product-card {
-  background: linear-gradient(135deg, #ffffff, #e0f7fa);
-  border: 1px solid #d1d5db;
+/* ===== برند سایت (ANBARINO) ===== */
+.site-brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0f766e; /* سبز تیره هم‌رنگ Navbar */
+  background: #d1fae5; /* سبز خیلی روشن */
+  padding: 6px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 2px;
   transition: all 0.3s ease;
 }
-.product-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+
+.site-brand:hover {
+  background: #a7f3d0;
+  color: #0d9488;
+  transform: scale(1.05);
 }
-.product-text .name {
-  font-size: 15px;
-  color: #0f172a;
-}
-.product-text .price {
-  font-size: 13px;
-  color: #475569;
-}
-.view-btn {
-  background: #0f766e;
-}
-.view-btn:hover {
-  background: #0d9488;
-}
+
