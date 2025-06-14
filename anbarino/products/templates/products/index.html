@@ -1,87 +1,202 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'products/css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>صفحه اصلی | انبارداری</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- فونت وزیر -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+
+  <!-- Bootstrap & FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- استایل اختصاصی -->
+  <link href="{% static 'products/css/style.css' %}" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+      font-family: Vazir, sans-serif;
+    }
+
+    footer {
+      background-color: #0f766e;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #facc15;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+  </style>
 </head>
-<body style="background-color:#f8f9fa;">
+<body>
 
-{% if user.is_authenticated %}
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center auth-links-wrapper">
+        <i class="fas fa-user" id="user-icon"></i>
+        <a href="#" class="auth-links">ورود</a>
+        <span class="mx-1">|</span>
+        <a href="#" class="auth-links">ثبت‌نام</a>
+      </div>
+      <a class="navbar-brand mx-3" href="#">
+        <img src="{% static 'products/images/10.png' %}" alt="logo" id="brand-logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#mainNav" aria-controls="mainNav"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#">خانه</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">لیست کالا‌ها</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">استعلام موجودی</a></li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="Search">
+          <button class="btn btn-success btn-sm" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </nav>
 
-<div >
-  سلام
-  <br>
-  {{user.username}}
-</div>
-
-{% else %}
-
-{% endif %}
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white;">
-  <div class="container-fluid">
-    <div class="user-auth">  <i class="fas fa-user" id="user-icon"></i>  <a class="auth-links hover-box" href="#">  ورود</a> | <a class="auth-links hover-box" href="#"> ثبت نام</a>  </div>
-    <a class="navbar-brand hover-box" id="ui" href="#">صفحه اصلی</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+  <!-- CAROUSEL -->
+  <div id="carouselExampleIndicators" class="carousel slide my-4">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+              class="active" aria-current="true"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'products/images/1.jpg' %}" class="d-block w-100" alt="">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'products/images/2.jpg' %}" class="d-block w-100" alt="">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'products/images/3.jpg' %}" class="d-block w-100" alt="">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button"
+            data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item hover-box">
-          <a class="nav-link active" aria-current="page" href="#">لیست محصولات</a>
-        </li>
-        <li class="hover-box hover-box">
-          <a class="nav-link" href="#">لیست خرابی</a>
-        </li>
-
-        <li class="nav-item hover-box">
-          <a class="nav-link " href="x.com">لیست مرجوعی</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <button class="btn btn-outline-success" type="submit" id="re"><i class="fas fa-search"></i></button>
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-
-      </form>
-      <img  src="{% static 'products/images/10.png' %}" id="kj">
-    </div>
+    <button class="carousel-control-next" type="button"
+            data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
   </div>
-</nav>
 
+  <!-- SLIDER SECTIONS -->
+  <main class="container">
+    <!-- محصولات پرفروش -->
+    <section class="slider-section mb-5">
+      <h2 class="section-heading">
+        <i class="fas fa-chart-line me-2"></i>محصولات پرفروش
+      </h2>
+      <div class="slider-wrapper">
+        {% for product in best_selling_products %}
+        <div class="product-card">
+          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+          <div class="product-text">
+            <p class="name">{{ product.name }}</p>
+            <p class="price">قیمت: {{ product.price }} تومان</p>
+          </div>
+          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+          <a href="#" class="view-btn">مشاهده</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
 
+    <!-- محصولات تازه‌وارد -->
+    <section class="slider-section mb-5">
+      <h2 class="section-heading">
+        <i class="fas fa-boxes-stacked me-2"></i>محصولات تازه‌وارد
+      </h2>
+      <div class="slider-wrapper">
+        {% for product in new_products %}
+        <div class="product-card">
+          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+          <div class="product-text">
+            <p class="name">{{ product.name }}</p>
+            <p class="price">قیمت: {{ product.price }} تومان</p>
+          </div>
+          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+          <a href="#" class="view-btn">مشاهده</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
 
-<div id="carouselExampleIndicators" class="carousel slide">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="{% static 'products/images/1.jpg' %}" class="d-block w-100" alt="...">
+    <!-- محصولات کم‌موجودی -->
+    <section class="slider-section mb-5">
+      <h2 class="section-heading">
+        <i class="fas fa-exclamation-triangle me-2"></i>محصولات کم‌موجودی
+      </h2>
+      <div class="slider-wrapper">
+        {% for product in low_stock_products %}
+        <div class="product-card">
+          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+          <div class="product-text">
+            <p class="name">{{ product.name }}</p>
+            <p class="price">قیمت: {{ product.price }} تومان</p>
+          </div>
+          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+          <a href="#" class="view-btn">مشاهده</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- محصولات تولید انبوه -->
+    <section class="slider-section mb-5">
+      <h2 class="section-heading">
+        <i class="fas fa-industry me-2"></i>محصولات تولید انبوه
+      </h2>
+      <div class="slider-wrapper">
+        {% for product in bulk_products %}
+        <div class="product-card">
+          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+          <div class="product-text">
+            <p class="name">{{ product.name }}</p>
+            <p class="price">قیمت: {{ product.price }} تومان</p>
+          </div>
+          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+          <a href="#" class="view-btn">مشاهده</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 تمامی حقوق محفوظ است | طراحی شده با ❤️ توسط تیم انبارداری</p>
+    <div>
+      <a href="#">تماس با ما</a> | <a href="#">درباره ما</a> | <a href="#">راهنما</a>
     </div>
-    <div class="carousel-item">
-      <img src="{% static 'products/images/2.jpg' %}" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="{% static 'products/images/3.jpg' %}" class="d-block w-100" alt="...">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+  </footer>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

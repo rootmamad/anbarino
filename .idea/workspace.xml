@@ -4,12 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="5">
-      <change afterPath="$PROJECT_DIR$/anbarino/products/static/products/css/style.css" afterDir="false" />
+    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/anbarino/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/anbarino/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/static/products/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/images/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/static/products/images/1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/images/11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/images/9.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/products/templates/products/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/templates/products/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +157,21 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۰۹" />
       <updated>1749253806189</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL‎−۰۰۰۱۰" summary="5">
+      <option name="closed" value="true" />
+      <created>1749337408027</created>
+      <option name="number" value="LOCAL‎−۰۰۰۱۰" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۱۰" />
+      <updated>1749337408027</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۱۱" summary="6">
+      <option name="closed" value="true" />
+      <created>1749337426834</created>
+      <option name="number" value="LOCAL‎−۰۰۰۱۱" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۱۱" />
+      <updated>1749337426834</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -160,6 +180,7 @@
     <MESSAGE value="3" />
     <MESSAGE value="4" />
     <MESSAGE value="5" />
-    <option name="LAST_COMMIT_MESSAGE" value="5" />
+    <MESSAGE value="6" />
+    <option name="LAST_COMMIT_MESSAGE" value="6" />
   </component>
 </project>
