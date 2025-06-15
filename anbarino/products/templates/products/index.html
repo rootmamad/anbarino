@@ -144,14 +144,22 @@
       <div class="slider-wrapper">
         {% for product in best_selling_products %}
         <div class="product-card">
-          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
-          <div class="product-text">
-            <p class="name">{{ product.name }}</p>
-            <p class="price">قیمت: {{ product.price }} تومان</p>
-          </div>
-          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
-          <a href="#" class="view-btn">مشاهده</a>
-        </div>
+  <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+
+  <div class="product-text">
+    <p class="name">{{ product.name }}</p>
+  </div>
+
+  <div class="product-meta">
+    <p class="price">قیمت: {{ product.price }} تومان</p>
+    <p class="stock">موجودی: {{ product.quantity }} عدد</p>
+  </div>
+
+  <div class="product-footer d-flex justify-content-between align-items-center w-100">
+    <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+    <a href="#" class="view-btn">مشاهده</a>
+  </div>
+</div>
         {% endfor %}
       </div>
     </section>
@@ -164,14 +172,23 @@
       <div class="slider-wrapper">
         {% for product in new_products %}
         <div class="product-card">
-          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
-          <div class="product-text">
-            <p class="name">{{ product.name }}</p>
-            <p class="price">قیمت: {{ product.price }} تومان</p>
-          </div>
-          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
-          <a href="#" class="view-btn">مشاهده</a>
-        </div>
+  <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+
+  <div class="product-text">
+    <p class="name">{{ product.name }}</p>
+  </div>
+
+  <div class="product-meta">
+    <p class="price">قیمت: {{ product.price }} تومان</p>
+    <p class="stock">موجودی: {{ product.quantity }} عدد</p>
+  </div>
+
+  <div class="product-footer d-flex justify-content-between align-items-center w-100">
+    <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+    <a href="#" class="view-btn">مشاهده</a>
+  </div>
+</div>
+
         {% endfor %}
       </div>
     </section>
@@ -184,14 +201,22 @@
       <div class="slider-wrapper">
         {% for product in low_stock_products %}
         <div class="product-card">
-          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
-          <div class="product-text">
-            <p class="name">{{ product.name }}</p>
-            <p class="price">قیمت: {{ product.price }} تومان</p>
-          </div>
-          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
-          <a href="#" class="view-btn">مشاهده</a>
-        </div>
+  <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+
+  <div class="product-text">
+    <p class="name">{{ product.name }}</p>
+  </div>
+
+  <div class="product-meta">
+    <p class="price">قیمت: {{ product.price }} تومان</p>
+    <p class="stock">موجودی: {{ product.quantity }} عدد</p>
+  </div>
+
+  <div class="product-footer d-flex justify-content-between align-items-center w-100">
+    <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+    <a href="#" class="view-btn">مشاهده</a>
+  </div>
+</div>
         {% endfor %}
       </div>
     </section>
@@ -204,14 +229,22 @@
       <div class="slider-wrapper">
         {% for product in bulk_products %}
         <div class="product-card">
-          <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
-          <div class="product-text">
-            <p class="name">{{ product.name }}</p>
-            <p class="price">قیمت: {{ product.price }} تومان</p>
-          </div>
-          <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
-          <a href="#" class="view-btn">مشاهده</a>
-        </div>
+  <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+
+  <div class="product-text">
+    <p class="name">{{ product.name }}</p>
+  </div>
+
+  <div class="product-meta">
+    <p class="price">قیمت: {{ product.price }} تومان</p>
+    <p class="stock">موجودی: {{ product.quantity }} عدد</p>
+  </div>
+
+  <div class="product-footer d-flex justify-content-between align-items-center w-100">
+    <img class="barcode" src="{{ product.barcode.url }}" alt="بارکد">
+    <a href="#" class="view-btn">مشاهده</a>
+  </div>
+</div>
         {% endfor %}
       </div>
     </section>
