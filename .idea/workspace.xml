@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="8">
+    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="9">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/static/products/css/style.css" afterDir="false" />
@@ -186,7 +186,14 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۱۴" />
       <updated>1749943319593</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL‎−۰۰۰۱۵" summary="9">
+      <option name="closed" value="true" />
+      <created>1750007439034</created>
+      <option name="number" value="LOCAL‎−۰۰۰۱۵" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۱۵" />
+      <updated>1750007439034</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -198,6 +205,7 @@
     <MESSAGE value="7" />
     <MESSAGE value="6" />
     <MESSAGE value="8" />
-    <option name="LAST_COMMIT_MESSAGE" value="8" />
+    <MESSAGE value="9" />
+    <option name="LAST_COMMIT_MESSAGE" value="9" />
   </component>
 </project>
