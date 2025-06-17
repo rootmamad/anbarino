@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="9">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/static/products/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/products/templates/products/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/templates/products/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="10" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -193,7 +188,21 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۱۵" />
       <updated>1750007439034</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL‎−۰۰۰۱۶" summary="10">
+      <option name="closed" value="true" />
+      <created>1750203398180</created>
+      <option name="number" value="LOCAL‎−۰۰۰۱۶" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۱۶" />
+      <updated>1750203398180</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۱۷" summary="10">
+      <option name="closed" value="true" />
+      <created>1750203419509</created>
+      <option name="number" value="LOCAL‎−۰۰۰۱۷" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۱۷" />
+      <updated>1750203419509</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -206,6 +215,7 @@
     <MESSAGE value="6" />
     <MESSAGE value="8" />
     <MESSAGE value="9" />
-    <option name="LAST_COMMIT_MESSAGE" value="9" />
+    <MESSAGE value="10" />
+    <option name="LAST_COMMIT_MESSAGE" value="10" />
   </component>
 </project>
