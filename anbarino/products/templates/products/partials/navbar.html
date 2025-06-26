@@ -1,0 +1,63 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand site-brand" href="/">ANBARINO</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="تغییر منو">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-4 mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">خانه</a></li>
+        <li class="nav-item"><a class="nav-link" href="/products">لیست کالاها</a></li>
+        <li class="nav-item"><a class="nav-link" href="/inventory-check">استعلام موجودی</a></li>
+      </ul>
+
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="جستجو">
+          <button class="btn btn-success btn-sm" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+
+        {% if user.is_authenticated %}
+        <div class="user-menu">
+          <div class="user-avatar" id="user-avatar">
+            <i class="fas fa-user-circle" style="margin-top: 12px;"></i>
+          </div>
+          <div class="user-dropdown">
+            <div class="user-profile">
+              <div class="profile-info">
+                <div class="username">{{ user.username }}</div>
+                <div class="fullname">{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="password-field">
+                  <span class="password-text">رمز: ••••••</span>
+                  <button class="toggle-password" type="button" aria-label="نمایش رمز">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <img src="{% static 'images/profile-placeholder.png' %}" alt="پروفایل" class="profile-image">
+            </div>
+            <hr>
+            <ul class="dropdown-links">
+              <li><a href="/damaged"><i class="fas fa-tools"></i> لیست خرابی</a></li>
+              <li><a href="/returns"><i class="fas fa-undo-alt"></i> لیست مرجوعی</a></li>
+              <li><a href="{% url 'cart_view' %}"><i class="fas fa-file-invoice"></i> فاکتور خرید</a></li>
+              <li><a href="/orders"><i class="fas fa-box-open"></i> سفارشات</a></li>
+            </ul>
+            <hr>
+            <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> خروج</a>
+          </div>
+        </div>
+        {% else %}
+        <div class="auth-links-wrapper d-flex">
+          <a href="/login" class="auth-links">ورود</a>
+          <span style="color:#fff;">|</span>
+          <a href="/register" class="auth-links">ثبت‌نام</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,134 @@
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 12px;
+  align-items: center;
+}
+
+.cart-product-card {
+  width: 800px;
+  height: 300px;
+  background-color: #f9fafb;
+  border: 2px solid #0f766e;
+  border-radius: 12px;
+  display: flex;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.cart-product-card:hover {
+  transform: scale(1.01);
+}
+
+.cart-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-left .product-image {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.cart-right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 24px;
+  gap: 6px;
+}
+
+.cart-right .name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.cart-right .price,
+.cart-right .stock {
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.cart-right .barcode {
+  width: 80px;
+  margin-top: 8px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.quantity-controls button {
+  width: 36px;
+  height: 36px;
+  background-color: #0f766e;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.quantity-controls button:hover {
+  background-color: #0d9488;
+}
+
+.quantity-controls .quantity {
+  font-size: 16px;
+  width: 28px;
+  text-align: center;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.text-center2{
+    font-size: 20px;
+    font-weight: bold;
+      color: #ef4444;
+      text-align: center;
+      margin-top: 40px;
+      animation: fadeIn 0.5s ease;
+}
+
+.empty-cart-message {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ef4444;
+  text-align: center;
+  margin-top: 40px;
+  animation: fadeIn 0.5s ease;
+}
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+.cart-product-card.removing {
+  animation: fadeOut 0.4s forwards;
+}
+.error-box {
+  background-color: #ffe8e8;
+  border: 1px solid #ff6b6b;
+  color: #c30000;
+  padding: 5px 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  font-size: 14px;
+}

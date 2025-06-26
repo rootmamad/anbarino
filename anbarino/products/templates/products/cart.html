@@ -1,0 +1,57 @@
+{% extends 'products/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}سبد خرید{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'products/css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="section-heading text-center"><i class="fas fa-shopping-cart me-2"></i>سبد خرید شما</h2>
+
+{% if cart_items %}
+<form method="post" action="{% url 'cart_finalize' %}">
+  {% csrf_token %}
+  <div class="cart-container">
+    {% for item in cart_items %}
+    <div class="cart-product-card" data-product-id="{{ item.product.id }}">
+      <div class="cart-left">
+        <img class="product-image" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+      </div>
+      <div class="cart-right">
+        <p class="name">{{ item.product.name }}</p>
+        <p class="price">قیمت: {{ item.product.price }} تومان</p>
+        <p class="stock">موجودی: {{ item.product.quantity }} عدد</p>
+        <img class="barcode" src="{{ item.product.barcode.url }}" alt="بارکد">
+        <div class="quantity-controls">
+          <button class="btn-minus" type="button">-</button>
+          <span class="quantity">{{ item.quantity }}</span>
+          <button class="btn-plus" type="button">+</button>
+        </div>
+
+        <!-- مقدار مخفی برای ارسال به سرور -->
+        <input type="hidden" name="quantities_{{ item.id }}" value="{{ item.quantity }}" class="quantity-input">
+
+        {% if error_map|get_item:item.id %}
+        <div class="alert alert-danger mt-2 d-flex align-items-center error-box" role="alert">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          {{ error_map|get_item:item.id }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-success btn-lg px-5" id="submit-cart">ثبت نهایی خرید</button>
+  </div>
+</form>
+
+<script src="{% static 'products/js/cart.js' %}"></script>
+{% else %}
+<p class="text-center2">سبد خرید شما خالی است.</p>
+{% endif %}
+{% endblock %}

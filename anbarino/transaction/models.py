@@ -42,7 +42,7 @@ class Transaction(models.Model):
 
 
     def clean(self):
-
+        print(self.quantity , self.product.price)
         user_balance = UserBalance.objects.get(user=self.user)
         total_cost = self.quantity * self.product.price
 
