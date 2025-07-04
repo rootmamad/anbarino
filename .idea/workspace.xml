@@ -4,24 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="10">
-      <change afterPath="$PROJECT_DIR$/anbarino/products/static/products/css/cart.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/static/products/js/cart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/static/products/js/menu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/cart.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/partials/footer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/partials/navbar.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/templatetags/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anbarino/products/templatetags/custom_filters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_06_2025_03_07___Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_06_2025_03_07_قبل‌ازظهر_[Changes]/shelved.patch" beforeDir="false" />
+    <list default="true" id="dc215d4e-bcda-439d-ac65-7dae236adf9c" name="Changes" comment="11">
+      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/damaged.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/orders.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/anbarino/products/templates/products/returned.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/products/templates/products/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/templates/products/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/images/10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/static/products/js/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/static/products/js/cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anbarino/products/templates/products/partials/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/templates/products/partials/navbar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/products/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/anbarino/products/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/products/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/anbarino/transaction/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/anbarino/transaction/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +35,13 @@
         <option value="mamad &lt;137838327+rootmamad@users.noreply.github.com&gt;" />
       </list>
     </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -75,7 +74,7 @@
     &quot;Python.models.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;534f671a&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/anbari/anbarino/products/templatetags&quot;
   },
@@ -89,6 +88,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\anbari\anbarino\products\templatetags" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\anbari\anbarino\products\templates\products" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -246,7 +248,21 @@
       <option name="presentableId" value="LOCAL‎−۰۰۰۲۰" />
       <updated>1750497028622</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL‎−۰۰۰۲۱" summary="11">
+      <option name="closed" value="true" />
+      <created>1750940692378</created>
+      <option name="number" value="LOCAL‎−۰۰۰۲۱" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۲۱" />
+      <updated>1750940692378</updated>
+    </task>
+    <task id="LOCAL‎−۰۰۰۲۲" summary="11">
+      <option name="closed" value="true" />
+      <created>1750940966680</created>
+      <option name="number" value="LOCAL‎−۰۰۰۲۲" />
+      <option name="presentableId" value="LOCAL‎−۰۰۰۲۲" />
+      <updated>1750940966680</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -271,7 +287,8 @@
     <MESSAGE value="8" />
     <MESSAGE value="9" />
     <MESSAGE value="10" />
-    <option name="LAST_COMMIT_MESSAGE" value="10" />
+    <MESSAGE value="11" />
+    <option name="LAST_COMMIT_MESSAGE" value="11" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

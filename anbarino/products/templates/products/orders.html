@@ -1,0 +1,93 @@
+{% extends 'products/base.html' %}
+{% load static %}
+{% block title %}سفارشات{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'products/css/cart.css' %}">
+<style>
+  .order-card {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: 0.3s;
+  }
+  .order-left {
+    width: 200px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .order-left img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .order-right {
+    flex: 1;
+    padding: 1rem 1.5rem;
+  }
+  .order-right p {
+    margin: 4px 0;
+  }
+  .order-form {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .order-form form {
+    flex: 1 1 200px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="section-heading text-center"><i class="fas fa-box me-2"></i>سفارشات شما</h2>
+
+{% if orders %}
+  {% for item in orders %}
+    <div class="order-card">
+      <div class="order-left">
+        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+      </div>
+      <div class="order-right">
+        <p class="fw-bold fs-5">{{ item.product.name }}</p>
+        <p>تعداد خریداری‌شده: {{ item.purchase }} عدد</p>
+        <p>تعداد مرجوع‌شده: {{ item.returned }} عدد</p>
+        <p>تعداد خراب‌شده: {{ item.damaged }} عدد</p>
+
+        <div class="order-form">
+          {% if item.purchase > item.returned %}
+          <form method="post" action="{% url 'start_returned_request' %}">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <label>مرجوعی:</label>
+            <input type="number" name="quantity" max="{{ item.can_return }}" value="1" required>
+            <button class="btn btn-warning btn-sm mt-1 w-100">ثبت مرجوعی</button>
+          </form>
+          {% endif %}
+
+          {% if item.purchase > item.damaged %}
+          <form method="post" action="{% url 'start_damaged_request' %}">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <label>خرابی:</label>
+            <input type="number" name="quantity" max="{{ item.can_damage }}" value="1" required>
+            <button class="btn btn-danger btn-sm mt-1 w-100">ثبت خرابی</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p class="text-center mt-5">هنوز سفارشی ثبت نکرده‌اید.</p>
+{% endif %}
+{% endblock %}
