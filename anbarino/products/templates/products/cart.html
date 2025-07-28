@@ -24,7 +24,7 @@
         <p class="name">{{ item.product.name }}</p>
         <p class="price">قیمت: {{ item.product.price }} تومان</p>
         <p class="stock">موجودی: {{ item.product.quantity }} عدد</p>
-        <img class="barcode" src="{{ item.product.barcode.url }}" alt="بارکد">
+        <img class="barcode" src="{{ item.product.qr_code.url }}" alt="بارکد">
         <div class="quantity-controls">
           <button class="btn-minus" type="button">-</button>
           <span class="quantity">{{ item.quantity }}</span>
@@ -38,6 +38,7 @@
         <div class="alert alert-danger mt-2 d-flex align-items-center error-box" role="alert">
           <i class="fas fa-exclamation-triangle me-2"></i>
           {{ error_map|get_item:item.id }}
+
         </div>
         {% endif %}
       </div>
