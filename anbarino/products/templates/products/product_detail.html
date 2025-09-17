@@ -1,0 +1,292 @@
+{% extends 'products/base.html' %}
+{% load static %}
+{% block title %}جزئیات محصول{% endblock %}
+
+{% block extra_head %}
+<style>
+  body {
+    background: #f2f4f8;
+  }
+  .product-detail {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+    max-width: 1000px;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  .product-detail img.main-img {
+    width: 300px;
+    height: auto;
+    object-fit: contain;
+    background: #e3f2fd;
+    padding: 1rem;
+    border-radius: 20px;
+  }
+  .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .product-info h2 {
+    margin-bottom: 1rem;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .product-info p {
+    margin: 0.5rem 0;
+    font-size: 16px;
+    color: #444;
+  }
+  .barcode-img {
+    margin-top: 1rem;
+    width: 70px;
+    height: auto;
+    opacity: 0.85;
+    border-radius: 6px;
+  }
+  .section-title {
+    margin-top: 1.8rem;
+    font-weight: bold;
+    font-size: 17px;
+    color: #333;
+  }
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .quantity-controls button {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  .quantity-controls button:hover {
+    background: #2196f3;
+    color: white;
+  }
+  .quantity-controls span {
+    font-size: 16px;
+    min-width: 35px;
+    text-align: center;
+    background: #eef;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .action-btn {
+    margin-top: 1.5rem;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .action-btn:hover {
+    background-color: #43a047;
+  }
+
+  /* پاپ‌آپ صفی */
+  #popup-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .popup-message {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 1s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+  }
+
+  .popup-error {
+    background-color: #f44336 !important;
+  }
+
+  .info-line {
+    font-size: 14px;
+    color: #666;
+    margin: 2px 0;
+  }
+  .status-info {
+    font-size: 13px;
+    color: #888;
+    margin-right: 0.4rem;
+    font-style: italic;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-img">
+
+  <div class="product-info">
+    <div>
+      <h2>{{ product.name }}</h2>
+      <p><strong>شناسه محصول:</strong> {{ product.id }}</p>
+      <p><strong>موجودی:</strong> {{ product.quantity }}</p>
+       <p><strong>قیمت:</strong> {{ product.price }}</p>
+      {% if user.is_authenticated %}
+      <p class="info-line">تعداد خریداری شده: <span id="purchase-qty-text">{{ product.purchased_quantity }}</span>
+        {% if order.purchase_pending %}<span class="status-info" id="purchase-pending">در انتظار تأیید: {{ order.purchase_pending }}</span>{% endif %}</p>
+      <p class="info-line">مرجوعی: <span id="returned-qty-text">{{ product.returned_quantity }}</span>
+        {% if order.returned_pending %}<span class="status-info" id="returned-pending">در انتظار تأیید: {{ order.returned_pending }}</span>{% endif %}</p>
+      <p class="info-line">خرابی: <span id="damaged-qty-text">{{ product.damaged_quantity }}</span>
+        {% if order.damaged_pending %}<span class="status-info" id="damaged-pending">در انتظار تأیید: {{ order.damaged_pending }}</span>{% endif %}</p>
+      <img src="{{ product.qr_code.url }}" alt="بارکد" class="barcode-img">
+      {% endif %}
+      <div class="section-title">افزودن به سبد خرید:</div>
+      <div class="quantity-controls">
+        <button onclick="adjustQty('purchase', -1)">-</button>
+        <span id="purchase-qty">{{ order.purchase_pending|default:0 }}</span>
+        <button onclick="adjustQty('purchase', 1)">+</button>
+      </div>
+
+      <div class="section-title">ثبت مرجوعی:</div>
+      <div class="quantity-controls">
+        <button onclick="adjustQty('returned', -1)">-</button>
+        <span id="returned-qty">{{ order.returned_pending|default:0 }}</span>
+        <button onclick="adjustQty('returned', 1)">+</button>
+      </div>
+
+      <div class="section-title">ثبت خرابی:</div>
+      <div class="quantity-controls">
+        <button onclick="adjustQty('damaged', -1)">-</button>
+        <span id="damaged-qty">{{ order.damaged_pending|default:0 }}</span>
+        <button onclick="adjustQty('damaged', 1)">+</button>
+      </div>
+
+      <button class="action-btn" onclick="submitActions()">ثبت عملیات</button>
+      {% if user.is_staff %}
+          <a href="{% url 'edit_product' product.id %}" class="action-btn" style="background:#007bff;margin-top:10px;">
+            ✏️ ویرایش محصول
+          </a>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+<!-- کانتینر پاپ‌آپ‌ها -->
+<div id="popup-container"></div>
+
+<script>
+  const state = {
+    purchase: parseInt(document.getElementById("purchase-qty").textContent) || 0,
+    returned: parseInt(document.getElementById("returned-qty").textContent) || 0,
+    damaged: parseInt(document.getElementById("damaged-qty").textContent) || 0
+  };
+
+  function adjustQty(type, delta) {
+    state[type] = Math.max(0, state[type] + delta);
+    document.getElementById(`${type}-qty`).textContent = state[type];
+  }
+
+  function showPopup(message, isError = false) {
+     if (!message || /0 عدد/.test(message)) return;
+    const popupContainer = document.getElementById('popup-container');
+    const popup = document.createElement('div');
+    popup.className = 'popup-message';
+    if (isError) popup.classList.add('popup-error');
+    popup.innerHTML = `<span>🔔</span>${message}`;
+    popupContainer.appendChild(popup);
+    setTimeout(() => {
+      popup.style.opacity = 0;
+      setTimeout(() => popup.remove(), 1000);
+    }, 2000);
+  }
+
+  function submitActions() {
+  const csrfToken = '{{ csrf_token }}';
+  const productId = {{ product.id }};
+
+  const actions = [
+    { type: 'orders/start_purchase', key: 'purchase', pendingId: 'purchase-pending', label: 'خرید' },
+    { type: 'orders/start_returned', key: 'returned', pendingId: 'returned-pending', label: 'مرجوعی' },
+    { type: 'orders/start_damaged', key: 'damaged', pendingId: 'damaged-pending', label: 'خرابی' }
+  ];
+
+  actions.forEach(action => {
+    const qty = state[action.key];
+
+    fetch(`/${action.type}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': csrfToken,
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: `product_id=${productId}&quantity=${qty}`
+    })
+    .then(res => res.json())
+    .then(data => {
+            if (data.redirect) {
+            window.location.href = data.redirect;
+            return;
+                }
+
+      if (data.status === 'success') {
+        showPopup(`ثبت ${action.label} با ${qty} عدد انجام شد ✅`);
+
+        const pendingSpan = document.getElementById(action.pendingId);
+
+        if (qty === 0) {
+          if (pendingSpan) {
+            pendingSpan.remove();
+          }
+        } else {
+          if (pendingSpan) {
+  pendingSpan.textContent = `در انتظار تأیید: ${qty}`;
+} else {
+  const newSpan = document.createElement('span');
+  newSpan.className = 'status-info';
+  newSpan.id = action.pendingId;
+  newSpan.textContent = `در انتظار تأیید: ${qty}`;
+
+  // پیدا کردن span اصلی که مقدار را نشان می‌دهد
+  const reference = document.getElementById(`${action.key}-qty-text`);
+  if (reference) {
+    reference.insertAdjacentElement('afterend', newSpan);
+  }
+}
+        }
+      } else {
+        showPopup(data.message || `خطا در ثبت ${action.label}`, true);
+      }
+    })
+    .catch(() => {
+
+      showPopup(`ارتباط با سرور برای ${action.label} برقرار نشد ❌`, true);
+    });
+  });
+}
+
+</script>
+
+{% endblock %}
