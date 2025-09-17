@@ -1,0 +1,142 @@
+{% extends 'products/base.html' %}
+{% load static %}
+
+{% block title %}استعلام موجودی{% endblock %}
+
+{% block extra_head %}
+<style>
+  body {
+    background: #eef2f7;
+    font-family: Vazir, sans-serif;
+  }
+  .inventory-check {
+    max-width: 700px;
+    margin: 4rem auto;
+    background: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  .inventory-check h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+  }
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  input[type="text"],
+  input[type="file"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+  .search-btn {
+    display: block;
+    width: 100%;
+    background: #2196f3;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s;
+  }
+  .search-btn:hover {
+    background: #1976d2;
+  }
+
+  .result-card {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 16px;
+    border: 1px solid #ddd;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    animation: slideUp 0.5s ease;
+  }
+  .result-card img {
+    width: 120px;
+    height: auto;
+    border-radius: 12px;
+    background: #fff;
+    padding: 8px;
+  }
+  .result-details p {
+    margin: 6px 0;
+    color: #333;
+  }
+
+  .not-found {
+    margin-top: 2rem;
+    background: #ffe6e6;
+    color: #c00;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(15px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="inventory-check">
+  <h2>استعلام موجودی</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-group">
+      <label for="barcode">آپلود تصویر بارکد</label>
+      <input type="file" id="barcode" name="barcode">
+    </div>
+
+    <div class="input-group">
+      <label for="name">یا نام محصول را وارد کنید</label>
+      <input type="text" id="name" name="name" placeholder="مثلاً لپ‌تاپ دل مدل XPS" required>
+    </div>
+
+    <button type="submit" class="search-btn">جستجو</button>
+  </form>
+
+  {% if product %}
+  {% for p in product %}
+    <div class="result-card">
+      <img src="{{ p.image.url }}" alt="{{ p.name }}">
+      <div class="result-details">
+        <p><strong>نام:</strong> {{ p.name }}</p>
+        <p><strong>موجودی:</strong> {{ p.quantity }}</p>
+        <p><strong>تعداد خریداری‌شده:</strong> {{ p.purchased_quantity }}</p>
+        <p><strong>مرجوعی:</strong> {{ p.returned_quantity }}</p>
+        <p><strong>خرابی:</strong> {{ p.damaged_quantity }}</p>
+      </div>
+    </div>
+  {% endfor %}
+  {% elif searched %}
+    <div class="not-found">محصولی با این مشخصات یافت نشد.</div>
+  {% endif %}
+</div>
+{% endblock %}

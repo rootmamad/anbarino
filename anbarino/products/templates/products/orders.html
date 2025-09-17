@@ -5,89 +5,312 @@
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'products/css/cart.css' %}">
 <style>
+  body {
+    background-color: #f2f4f8;
+  }
   .order-card {
     display: flex;
     flex-direction: row;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 16px;
+    background-color: #ffffff;
+    border-radius: 20px;
     overflow: hidden;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    transition: 0.3s;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    animation: fadeIn 0.6s ease-in-out;
+    transition: transform 0.3s;
+    position: relative;
+    align-items: center;
+  }
+  .order-card:hover {
+    transform: translateY(-4px);
   }
   .order-left {
-    width: 200px;
-    background-color: #f9f9f9;
+    width: 280px;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 0.7rem;
     justify-content: center;
     padding: 1rem;
+    background: #e3f2fd;
+    border-radius: 15px;
+    position: relative;
   }
   .order-left img {
     width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+  .order-left .barcode {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    width: 50px;
     height: auto;
     object-fit: contain;
+    opacity: 0.8;
   }
   .order-right {
     flex: 1;
-    padding: 1rem 1.5rem;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .order-right p {
-    margin: 4px 0;
+    margin: 5px 0;
+    font-size: 15px;
+  }
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+  }
+  .quantity-controls button {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #d1d1d1;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 0;
+  }
+  .quantity-controls span {
+    min-width: 30px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    background: #eee;
+    border-radius: 6px;
+    padding: 2px 6px;
+  }
+  .form-section {
+    margin-top: 1rem;
+    background: #f7f7f7;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px dashed #bbb;
+    transition: background 0.3s ease;
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form-section:hover {
+    background: #f0f0f0;
+  }
+  .submit-btn {
+    padding: 6px 10px !important;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    white-space: nowrap;
+    margin-top: 0.5rem;
   }
   .order-form {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.5rem;
     flex-wrap: wrap;
   }
-  .order-form form {
-    flex: 1 1 200px;
+  .popup-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  .popup-error {
+    background-color: #f44336 !important;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .status-info {
+    font-size: 13px;
+    color: #888;
+    margin-right: 0.4rem;
+    font-style: italic;
+  }
+  .stat-box span {
+    font-weight: bold;
+    background: #eef;
+    padding: 4px 8px;
+    border-radius: 8px;
+    margin-right: 6px;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<h2 class="section-heading text-center"><i class="fas fa-box me-2"></i>سفارشات شما</h2>
+<h2 class="section-heading text-center mb-5"><i class="fas fa-box me-2"></i>سفارشات شما</h2>
 
 {% if orders %}
-  {% for item in orders %}
-    <div class="order-card">
+  <form method="post" action="{% url 'orders_view' %}" id="orders-form">
+    {% csrf_token %}
+    {% for item in orders %}
+    <div class="order-card" data-product-id="{{ item.product.id }}">
       <div class="order-left">
         <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+          <img class="barcode" src="{{ item.product.qr_code.url }}" alt="بارکد">
       </div>
       <div class="order-right">
-        <p class="fw-bold fs-5">{{ item.product.name }}</p>
-        <p>تعداد خریداری‌شده: {{ item.purchase }} عدد</p>
-        <p>تعداد مرجوع‌شده: {{ item.returned }} عدد</p>
-        <p>تعداد خراب‌شده: {{ item.damaged }} عدد</p>
+        <div>
+          <p class="fw-bold fs-5">{{ item.product.name }}</p>
+          <p class="stat-box">تعداد خریداری‌شده: <span id="purchase-{{ item.product.id }}">{{ item.purchase }}</span>
+            {% if item.purchase_pending %}<span class="status-info" id="purchase-pending-{{ item.product.id }}">در انتظار تأیید: {{ item.purchase_pending }}</span>{% endif %}</p>
+          <p class="stat-box">تعداد مرجوع‌شده: <span id="returned-{{ item.product.id }}" >{{ item.returned }}</span>
+            {% if item.returned_pending %}<span class="status-info" id="returned-pending-{{ item.product.id }}" >در انتظار تأیید: {{ item.returned_pending }}</span>{% endif %}</p>
+          <p class="stat-box">تعداد خراب‌شده: <span id="damaged-{{ item.product.id }}" >{{ item.damaged }}</span>
+            {% if item.damaged_pending %}<span class="status-info" id="damaged-pending-{{ item.product.id }}">در انتظار تأیید: {{ item.damaged_pending }}</span>{% endif %}</p>
+        </div>
 
         <div class="order-form">
-          {% if item.purchase > item.returned %}
-          <form method="post" action="{% url 'start_returned_request' %}">
-            {% csrf_token %}
-            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+          <div class="form-section">
             <label>مرجوعی:</label>
-            <input type="number" name="quantity" max="{{ item.can_return }}" value="1" required>
-            <button class="btn btn-warning btn-sm mt-1 w-100">ثبت مرجوعی</button>
-          </form>
-          {% endif %}
+            <div class="quantity-controls" data-type="returned">
+              <button type="button" class="btn-minus" data-type="returned">-</button>
+              <span class="quantity">{{ item.returned_pending }}</span>
+              <button type="button" class="btn-plus" data-type="returned">+</button>
+            </div>
+            <input type="hidden" name="returned_{{ item.product.id }}" value="{{ item.returned }}" class="quantity-input">
+            <button class="btn btn-warning submit-btn" data-type="returned">ثبت مرجوعی</button>
+          </div>
 
-          {% if item.purchase > item.damaged %}
-          <form method="post" action="{% url 'start_damaged_request' %}">
-            {% csrf_token %}
-            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+          <div class="form-section">
             <label>خرابی:</label>
-            <input type="number" name="quantity" max="{{ item.can_damage }}" value="1" required>
-            <button class="btn btn-danger btn-sm mt-1 w-100">ثبت خرابی</button>
-          </form>
-          {% endif %}
+            <div class="quantity-controls" data-type="damaged">
+
+              <button type="button" class="btn-minus" data-type="damaged">-</button>
+              <span class="quantity">{{ item.damaged_pending|default:0 }}</span>
+              <button type="button" class="btn-plus" data-type="damaged">+</button>
+            </div>
+            <input type="hidden" name="damaged_{{ item.product.id }}" value="{{ item.damaged }}" class="quantity-input">
+            <button class="btn btn-danger submit-btn" data-type="damaged">ثبت خرابی</button>
+          </div>
         </div>
       </div>
     </div>
-  {% endfor %}
+    {% endfor %}
+  </form>
 {% else %}
   <p class="text-center mt-5">هنوز سفارشی ثبت نکرده‌اید.</p>
 {% endif %}
+
+
+
+<script>
+function showPopup(message, isError = false) {
+  const popup = document.createElement('div');
+  popup.className = 'popup-message';
+  if (isError) popup.classList.add('popup-error');
+  popup.textContent = message;
+  document.body.appendChild(popup);
+  setTimeout(() => {
+    popup.style.opacity = 0;
+    setTimeout(() => popup.remove(), 1000);
+  }, 1000);
+}
+
+function updateCount(type, card, delta) {
+  const productId = card.dataset.productId;
+  const quantityWrapper = card.querySelector(`.quantity-controls[data-type="${type}"]`);
+  const quantitySpan = quantityWrapper.querySelector('.quantity');
+  const quantityInput = card.querySelector(`input[name="${type}_${productId}"]`);
+  let quantity = parseInt(quantitySpan.textContent);
+  quantity = Math.max(0, quantity + delta);
+  quantitySpan.textContent = quantity;
+  quantityInput.value = quantity;
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.btn-plus, .btn-minus').forEach(button => {
+    button.addEventListener('click', () => {
+      const card = button.closest('.order-card');
+      const type = button.dataset.type;
+      const delta = button.classList.contains('btn-plus') ? 1 : -1;
+       updateCount(type, card, delta);
+    });
+  });
+
+  document.querySelectorAll('.submit-btn').forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      const card = button.closest('.order-card');
+      const type = button.dataset.type;
+      const productId = card.dataset.productId;
+      const quantity = parseInt(card.querySelector(`input[name="${type}_${productId}"]`).value);
+
+      if (quantity < 0) {
+        showPopup('تعداد باید بیشتر از صفر باشد.', true);
+        return;
+      }
+
+      fetch(`/orders/start_${type}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': '{{ csrf_token }}',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `product_id=${productId}&quantity=${quantity}`
+      }).then(res => {
+        if (!res.ok) {
+          res.json().then(data => {
+            if (data.status === 'error') {
+              showPopup(data.message || 'خطا در ثبت.', true);
+            }
+          });
+        } else {
+          const pendingId = `${type}-pending-${productId}`;
+          let pendingSpan = document.getElementById(pendingId);
+
+          if (quantity === 0) {
+            if (pendingSpan) pendingSpan.remove();
+          } else {
+            if (pendingSpan) {
+              pendingSpan.textContent = `در انتظار تأیید: ${quantity}`;
+              pendingSpan.dataset.qty = quantity;
+            } else {
+              const parent = document.getElementById(`${type}-${productId}`).parentElement;
+              const newSpan = document.createElement('span');
+              newSpan.className = 'status-info';
+              newSpan.id = pendingId;
+              newSpan.dataset.qty = quantity;
+              newSpan.textContent = `در انتظار تأیید: ${quantity}`;
+              parent.appendChild(newSpan);
+            }
+          }
+
+
+          // بروزرسانی مقدار نمایش داده‌شده بین + و -
+          const quantitySpan = card.querySelector(`.quantity-controls button[data-type="${type}"]`).parentElement.querySelector('.quantity');
+          const quantityInput = card.querySelector(`input[name="${type}_${productId}"]`);
+          quantitySpan.textContent = quantity;
+          quantityInput.value = quantity;
+
+          showPopup('ثبت با موفقیت انجام شد.');
+        }
+      });
+    });
+  });
+});
+
+</script>
 {% endblock %}

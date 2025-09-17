@@ -4,63 +4,92 @@ from .models import Transaction, UserBalance
 from django.db import models
 from products.models import Product
 from django.core.exceptions import ValidationError
+from django.db.models.signals import pre_save
+from django.db.models import Sum
 
-@receiver(post_save, sender=Transaction)
-def update_product_status(sender, instance, **kwargs):
+
+@receiver(pre_save, sender=Transaction)
+def validate_transaction(sender, instance, **kwargs):
+    """
+    اعتبارسنجی برای تراکنش‌های خرابی و مرجوعی
+    """
+    product = instance.product
+    user_balance, _ = UserBalance.objects.get_or_create(user=instance.user)
+    # فقط وقتی که تراکنش تایید میشه چک کن
     if not instance.is_approved:
         return
 
-    product = instance.product
-    user_balance = UserBalance.objects.get(user=instance.user)
-
+    # کل تعداد خریدهای تایید شده
     total_purchased = Transaction.objects.filter(
-        user=instance.user, product=product, transaction_type=Transaction.PURCHASE, is_approved=True
-    ).aggregate(models.Sum('quantity'))['quantity__sum'] or 0
+        user=instance.user,
+        product=instance.product,
+        transaction_type=Transaction.PURCHASE,
+        is_approved=True
+    ).aggregate(Sum('quantity'))['quantity__sum'] or 0
 
-    total_returned = Transaction.objects.filter(
-        user=instance.user, product=product, transaction_type=Transaction.RETURNED, is_approved=True
-    ).aggregate(models.Sum('quantity'))['quantity__sum'] or 0
-
+    # کل خرابی‌های تایید شده (به جز رکورد فعلی اگه آپدیت میشه)
     total_damaged = Transaction.objects.filter(
-        user=instance.user, product=product, transaction_type=Transaction.DAMAGED, is_approved=True
-    ).aggregate(models.Sum('quantity'))['quantity__sum'] or 0
+        user=instance.user,
+        product=instance.product,
+        transaction_type=Transaction.DAMAGED,
+        is_approved=True
+    ).exclude(pk=instance.pk).aggregate(Sum('quantity'))['quantity__sum'] or 0
 
-    if instance.transaction_type == Transaction.RETURNED:
-        if total_returned + instance.quantity > total_purchased - total_damaged:
-            raise ValidationError("نمیتوان بیشتر از مقدار قابل برگشت مرجوع کرد.")
-        product.returned_quantity += instance.quantity
+    # کل مرجوعی‌های تایید شده (به جز رکورد فعلی اگه آپدیت میشه)
+    total_returned = Transaction.objects.filter(
+        user=instance.user,
+        product=instance.product,
+        transaction_type=Transaction.RETURNED,
+        is_approved=True
+    ).exclude(pk=instance.pk).aggregate(Sum('quantity'))['quantity__sum'] or 0
+
+    # مجموع قابل استفاده برای مقایسه
+    if instance.transaction_type == Transaction.PURCHASE:
+        product.quantity -= instance.quantity
+        product.save()
+        price_total = instance.quantity * product.price
+        if not user_balance.deduct_balance(price_total):
+            raise ValidationError("موجودی کاربر کافی نیست.")
+
+    elif instance.transaction_type == Transaction.RETURNED:
+        print("man hanooz")
         product.quantity += instance.quantity
-        user_balance.balance += instance.quantity * product.price
+        product.save()
+        price_total = instance.quantity * product.price
+        user_balance.balance += price_total
         user_balance.save()
 
-    elif instance.transaction_type == Transaction.DAMAGED:
-        if total_damaged + instance.quantity > total_purchased - total_returned:
-            raise ValidationError("نمیتوان بیشتر از مقدار قابل خرابی ثبت کرد.")
-        product.damaged_quantity += instance.quantity
 
-    elif instance.transaction_type == Transaction.PURCHASE:
-        if not user_balance.deduct_balance(instance.quantity * product.price):
-            raise ValidationError("موجودی کاربر کافی نیست!")
-        product.purchased_quantity += instance.quantity
-        product.quantity -= instance.quantity
 
+
+
+
+@receiver(post_save, sender=Transaction)
+def update_product_quantities(sender, instance, created, **kwargs):
+    product = instance.product
+
+    total_damaged = Transaction.objects.filter(
+        product=product,
+        transaction_type=Transaction.DAMAGED,
+        is_approved=True
+    ).aggregate(Sum('quantity'))['quantity__sum'] or 0
+
+    total_returned = Transaction.objects.filter(
+        product=product,
+        transaction_type=Transaction.RETURNED,
+        is_approved=True
+    ).aggregate(Sum('quantity'))['quantity__sum'] or 0
+
+    total_purchased = Transaction.objects.filter(
+        user=instance.user,
+        product=instance.product,
+        transaction_type=Transaction.PURCHASE,
+        is_approved=True
+    ).aggregate(Sum('quantity'))['quantity__sum'] or 0
+
+
+    product.damaged_quantity = total_damaged
+    product.returned_quantity = total_returned
+    product.purchased_quantity = total_purchased
     product.save()
-
-
-@receiver(post_delete, sender=Transaction)
-def revert_product_status(sender, instance, **kwargs):
-
-
-    product_status, created = Product.objects.get_or_create(name=instance.product)
-    if instance.is_approved:
-        if instance.transaction_type == Transaction.PURCHASE:
-            product_status.purchased_quantity -= instance.quantity
-            product_status.quantity += instance.quantity
-        elif instance.transaction_type == Transaction.RETURNED:
-            product_status.returned_quantity -= instance.quantity
-            product_status.quantity -= instance.quantity
-        elif instance.transaction_type == Transaction.DAMAGED:
-            product_status.damaged_quantity -= instance.quantity
-            #product_status.quantity += instance.quantity
-
-        product_status.save()
+    print(product, total_damaged, total_returned,"123456789")

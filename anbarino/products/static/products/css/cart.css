@@ -10,7 +10,7 @@
 
 .cart-product-card {
   width: 800px;
-  height: 300px;
+  height: 361px;
   background-color: #f9fafb;
   border: 2px solid #0f766e;
   border-radius: 12px;
@@ -131,4 +131,40 @@
   margin-top: 5px;
   border-radius: 8px;
   font-size: 14px;
+}
+.btn-approve {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.btn-approve:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.btn-reject {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.btn-reject:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+.cart-product-card.approved {
+  background-color: #d4edda; /* سبز */
+  border-left: 6px solid #28a745;
+}
+
+.cart-product-card.rejected {
+  background-color: #f8d7da; /* قرمز */
+  border-left: 6px solid #dc3545;
 }

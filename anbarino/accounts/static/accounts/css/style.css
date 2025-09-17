@@ -3,12 +3,12 @@
   background: linear-gradient(to left, #0f766e, #14b8a6);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 0.5rem 1rem;
-  position: fixed !important;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1000;
+}
 
+#user-icon {
+  font-size: 18px;
+  margin-left: 6px;
+  color: #fff;
 }
 
 .auth-links-wrapper {
@@ -59,7 +59,7 @@
 
 /* ===== Carousel ===== */
 .carousel-item img {
-  height: 700px;
+  height: 300px;
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -545,130 +545,4 @@ footer a:hover {
     opacity: 1;
     transform: translateY(0);
   }
-}
-.card {
-  border-radius: 15px;
-}
-.card input, .card select, .card textarea {
-  margin-bottom: 15px;
-}
-/* --- فرم اصلی --- */
-.form-wrapper {
-  max-width: 450px;
-  margin: 50px auto;
-  padding: 30px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  animation: fadeInUp 0.8s ease;
-  text-align: center;
-}
-
-.form-title {
-  font-size: 22px;
-  margin-bottom: 20px;
-  color: #333;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-/* --- فرم داخلی --- */
-.product-form p {
-  margin: 15px 0;
-  text-align: left;
-}
-
-.product-form input,
-.product-form select,
-.product-form textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 14px;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.product-form input:focus,
-.product-form select:focus,
-.product-form textarea:focus {
-  border-color: #28a745;
-  box-shadow: 0 0 6px rgba(40,167,69,0.3);
-}
-
-/* --- دکمه --- */
-.btn-submit {
-  background: linear-gradient(45deg, #28a745, #20c997);
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  width: 100%;
-  margin-top: 15px;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.btn-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(40,167,69,0.3);
-}
-
-/* --- انیمیشن ورود --- */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.search-results-box {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-  display: none;
-  padding: 10px 0;
-  animation: fadeSlideIn 0.3s ease forwards;
-}
-
-.search-result-item {
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 14px;
-  color: #1f2937;
-}
-
-.search-result-item:hover {
-  background-color: #f0fdf4;
-  color: #0f766e;
-}
-
-@keyframes fadeSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-body {
-  padding-top: 60px;
 }

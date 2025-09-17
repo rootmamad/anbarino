@@ -1,31 +1,29 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // تنظیمات قابل تغییر
+document.addEventListener('DOMContentLoaded', function () {
   const settings = {
-    showDelay: 300,    // تاخیر قبل از نمایش منو (میلی‌ثانیه)
-    hideDelay: 200,    // تاخیر قبل از پنهان شدن منو (میلی‌ثانیه)
-    animationDuration: '0.3s', // مدت زمان انیمیشن
-    verticalOffset: '10px' // میزان جابجایی عمودی هنگام نمایش/پنهان شدن
+    showDelay: 300,
+    hideDelay: 200,
+    animationDuration: '0.3s',
+    verticalOffset: '10px',
   };
 
-  // انتخاب عناصر DOM
   const userMenu = document.querySelector('.user-menu');
   const userAvatar = document.getElementById('user-avatar');
   const userDropdown = document.querySelector('.user-dropdown');
-  const togglePassword = document.querySelector('.toggle-password');
-  const passwordText = document.querySelector('.password-text');
+  const toggleAmount = document.querySelector('.toggle-amount');
+  const amountText = document.querySelector('.amount-text');
 
-  // متغیرهای زمان‌سنج
   let showTimeout, hideTimeout;
 
-  // تنظیم استایل اولیه منو
-  userDropdown.style.transition = `
-    opacity ${settings.animationDuration} ease,
-    transform ${settings.animationDuration} ease,
-    visibility 0s linear ${settings.animationDuration}
-  `;
-  userDropdown.style.transform = `translateY(${settings.verticalOffset})`;
+  // Initial dropdown style
+  if (userDropdown) {
+    userDropdown.style.transition = `
+      opacity ${settings.animationDuration} ease,
+      transform ${settings.animationDuration} ease,
+      visibility 0s linear ${settings.animationDuration}
+    `;
+    userDropdown.style.transform = `translateY(${settings.verticalOffset})`;
+  }
 
-  // نمایش منو با تاخیر
   const showMenu = () => {
     clearTimeout(hideTimeout);
     showTimeout = setTimeout(() => {
@@ -36,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, settings.showDelay);
   };
 
-  // پنهان کردن منو با تاخیر
   const hideMenu = () => {
     clearTimeout(showTimeout);
     hideTimeout = setTimeout(() => {
@@ -46,52 +43,117 @@ document.addEventListener('DOMContentLoaded', function() {
     }, settings.hideDelay);
   };
 
-  // رویدادهای ماوس برای منو
-  userMenu.addEventListener('mouseenter', showMenu);
-  userMenu.addEventListener('mouseleave', hideMenu);
-  userDropdown.addEventListener('mouseenter', showMenu);
-  userDropdown.addEventListener('mouseleave', hideMenu);
+  // Hover events
+  if (userMenu && userDropdown) {
+    userMenu.addEventListener('mouseenter', showMenu);
+    userMenu.addEventListener('mouseleave', hideMenu);
+    userDropdown.addEventListener('mouseenter', showMenu);
+    userDropdown.addEventListener('mouseleave', hideMenu);
+  }
 
-  // مدیریت نمایش رمز (نمایش محدود شده)
-  if (togglePassword && passwordText) {
-    togglePassword.addEventListener('click', function() {
-      const isHidden = passwordText.textContent.includes('••••••');
+  // Toggle "amount" visibility (مثل رمز چشمک‌زن)
+  if (toggleAmount && amountText) {
+    toggleAmount.addEventListener('click', function () {
+      const isHidden = amountText.textContent.includes('•••');
 
       if (isHidden) {
-        // نمایش نمونه محدود شده (4 کاراکتر آخر)
-        const hashedPass = "{{ user.password }}";
-        const shortPass = hashedPass.length > 4 ? '...' + hashedPass.slice(-4) : hashedPass;
-        passwordText.textContent = `رمز: ${shortPass}`;
+        const realAmount = amountText.dataset.amount || 'نامشخص';
+        amountText.textContent = `موجودی: ${realAmount}`;
         this.innerHTML = '<i class="fas fa-eye-slash"></i>';
       } else {
-        passwordText.textContent = 'رمز: ••••••';
+        amountText.textContent = 'موجودی: •••••';
         this.innerHTML = '<i class="fas fa-eye"></i>';
       }
     });
   }
 
-  // افکت hover برای آواتار کاربر
+  // Avatar animation
   if (userAvatar) {
-    userAvatar.addEventListener('mouseenter', function() {
+    userAvatar.addEventListener('mouseenter', function () {
       this.style.transform = 'scale(1.1)';
     });
 
-    userAvatar.addEventListener('mouseleave', function() {
+    userAvatar.addEventListener('mouseleave', function () {
       this.style.transform = 'scale(1)';
     });
   }
 });
+document.addEventListener('DOMContentLoaded', function () {
+  const input = document.getElementById('live-search-input');
+  const resultsBox = document.getElementById('search-results-box');
+  let timeout = null;
 
-// تابع کمکی برای مدیریت تاخیرها
-function debounce(func, delay) {
-  let timeoutId;
-  return function() {
-    const context = this;
-    const args = arguments;
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      func.apply(context, args);
-    }, delay);
+  input.addEventListener('input', function () {
+    const query = this.value.trim();
+
+    clearTimeout(timeout);
+    if (query.length < 2) {
+      resultsBox.style.display = 'none';
+      return;
+    }
+
+    timeout = setTimeout(() => {
+      fetch(`/api/reindex/`).then(res => res.json()).then(data => {console.log(data)})
+
+      fetch(`/api/search/?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.results.length > 0) {
+            resultsBox.innerHTML = '';
+            data.results.forEach(item => {
+              const div = document.createElement('div');
+              div.className = 'search-result-item';
+              div.textContent = item.name;
+              div.onclick = () => {
+                window.location.href = `/product/${item.id}`;
+              };
+              resultsBox.appendChild(div);
+            });
+            resultsBox.style.display = 'block';
+          } else {
+            resultsBox.innerHTML = '<div class="search-result-item">نتیجه‌ای یافت نشد</div>';
+            resultsBox.style.display = 'block';
+          }
+        })
+        .catch(err => {
+          resultsBox.innerHTML = '<div class="search-result-item">خطا در جستجو</div>';
+          resultsBox.style.display = 'block';
+        });
+    }, 300); // تأخیر ۳۰۰ میلی‌ثانیه
+  });
+
+  // وقتی بیرون کلیک بشه، نتایج بسته می‌شن
+  document.addEventListener('click', function (e) {
+    if (!document.getElementById('live-search-form').contains(e.target)) {
+      resultsBox.style.display = 'none';
+    }
+  });
+});
+
+
+document.querySelectorAll(".slider-wrapper").forEach((wrapper) => {
+  let scrollVelocity = 0;
+  const friction = 0.92;    // اصطکاک بیشتر برای توقف سریع‌تر
+  const maxVelocity = 20;    // حداکثر سرعت کمتر برای اسکرول آهسته‌تر
+  const scrollFactor = 0.3;  // کاهش تاثیر چرخ موس
+
+  const animate = () => {
+    if (Math.abs(scrollVelocity) > 0.1) {
+      wrapper.scrollLeft += scrollVelocity;
+      scrollVelocity *= friction;
+      requestAnimationFrame(animate);
+    }
   };
 
-}
+  wrapper.addEventListener("wheel", (e) => {
+    e.preventDefault();
+
+    scrollVelocity += e.deltaY * scrollFactor;
+
+    // محدود کردن سرعت
+    if (scrollVelocity > maxVelocity) scrollVelocity = maxVelocity;
+    if (scrollVelocity < -maxVelocity) scrollVelocity = -maxVelocity;
+
+    requestAnimationFrame(animate);
+  }, { passive: false });
+});

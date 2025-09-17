@@ -1,0 +1,123 @@
+{% extends "products/base.html" %}
+{% load static %}
+
+{% block title %}ویرایش اطلاعات کاربر{% endblock %}
+
+{% block extra_head %}
+<style>
+  .form-wrapper {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    text-align: right;
+  }
+
+  .form-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    color: #333;
+  }
+
+  .user-form label {
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+    color: #555;
+  }
+
+  .user-form input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .btn-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    font-size: 1.1rem;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-submit:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+  <h2 class="form-title">✏️ ویرایش اطلاعات کاربری</h2>
+
+  <form id="user-form" method="post" class="user-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-submit">ذخیره تغییرات</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  document.getElementById("user-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch("{% url 'edit_user' %}", {  // مطمئن شو مسیر url درست است
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+      },
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") {
+        Swal.fire({
+          icon: "success",
+          title: "تغییرات ذخیره شد",
+          text: data.message || "اطلاعات شما با موفقیت بروزرسانی شد.",
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: () => {
+            // افکت کوتاه روی فرم
+            form.style.transition = "all 0.3s ease";
+            form.style.transform = "scale(1.02)";
+            setTimeout(() => form.style.transform = "scale(1)", 300);
+          }
+        });
+      } else {
+        let errors = Object.values(data.errors).flat().join("\n");
+        Swal.fire({
+          icon: "error",
+          title: "خطا",
+          text: errors
+        });
+      }
+    })
+    .catch(() => {
+      Swal.fire({
+        icon: "error",
+        title: "خطا",
+        text: "ارتباط با سرور برقرار نشد."
+      });
+    });
+  });
+</script>
+{% endblock %}

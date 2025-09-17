@@ -1,0 +1,90 @@
+{% extends 'products/base.html' %}
+{% block title %}راهنما{% endblock %}
+
+{% block extra_head %}
+<style>
+.help-page {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: Vazir, sans-serif;
+  color: #333;
+}
+
+.help-page h1 {
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.help-page h2 {
+  color: #0056b3;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+.help-page p {
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+.help-page ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.help-page ul li {
+  position: relative;
+  padding-right: 20px;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.help-page ul li::before {
+  content: "✔";
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #28a745;
+  font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  .help-page {
+    padding: 20px;
+    margin: 15px;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="help-page py-4">
+  <h1>راهنما</h1>
+
+  <h2>شروع به کار</h2>
+  <p>برای استفاده از سیستم انبارداری، ابتدا باید در سایت ثبت‌نام کرده و وارد حساب کاربری خود شوید.</p>
+
+  <h2>مدیریت محصولات</h2>
+  <p>می‌توانید محصولات خود را اضافه، ویرایش و حذف کنید. هر محصول دارای کد، نام، تعداد و توضیحات است.</p>
+
+  <h2>مدیریت سفارشات</h2>
+  <p>سفارشات دریافتی را می‌توانید مشاهده، تایید و پیگیری کنید تا فرایند ارسال به درستی انجام شود.</p>
+
+  <h2>پشتیبانی</h2>
+  <p>در صورت وجود هرگونه سوال یا مشکل، می‌توانید از طریق ایمیل یا شماره تلفن زیر با ما تماس بگیرید:</p>
+  <ul>
+    <li>ایمیل: MaramKade@gmail.com</li>
+    <li>تلفن: ۰۲۴-۹۸۷۶۵۴۳۲</li>
+  </ul>
+</div>
+{% endblock %}

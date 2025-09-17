@@ -1,0 +1,212 @@
+{% extends "products/base.html" %}
+{% load static %}
+{% block title %}مدیریت کارکنان{% endblock %}
+
+{% block extra_head %}
+<style>
+  body { background:#f5f6fa; font-family:tahoma,sans-serif; }
+  .form-wrapper, .staff-table {
+    max-width: 800px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    direction: rtl;
+    text-align: right;
+  }
+  .form-title { text-align:center; margin-bottom:25px; font-size:1.6rem; color:#333; font-weight:bold; }
+  .staff-form label { font-weight:bold; margin-top:10px; display:block; color:#444; }
+  .staff-form input, .staff-form select { width:100%; padding:10px 12px; margin-top:5px; border:1px solid #ccc; border-radius:8px; font-size:1rem; }
+  .btn-submit { width:100%; padding:12px; margin-top:20px; font-size:1.1rem; background:#28a745; color:#fff; border:none; border-radius:10px; cursor:pointer; transition:0.3s; }
+  .btn-submit:hover { background:#218838; transform:translateY(-2px); }
+  table { width:100%; border-collapse:collapse; margin-top:30px; }
+  table th, table td { border:1px solid #ddd; padding:12px; text-align:center; }
+  table th { background-color:#f8f9fa; }
+  .action-btn { padding:6px 10px; margin:2px; border:none; border-radius:6px; font-size:0.9rem; cursor:pointer; color:#fff; }
+  .btn-edit { background:#ffc107; }
+  .btn-delete { background:#dc3545; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+  <h2 class="form-title">➕ افزودن کارمند جدید</h2>
+  <form id="staff-form" class="staff-form">
+    {% csrf_token %}
+    <label for="id_full_name">نام:</label>
+    <input type="text" name="full_name" id="id_full_name" required>
+
+    <label for="id_national_code">کد ملی:</label>
+    <input type="text" name="national_code" id="id_national_code" required pattern="\d{10}" title="کد ملی باید 10 رقم باشد">
+
+    <label for="id_phone">شماره تماس:</label>
+    <input type="text" name="phone" id="id_phone" required pattern="\d{10}" title="شماره تماس باید 10 رقم باشد">
+
+    <label for="id_email">ایمیل:</label>
+    <input type="email" name="email" id="id_email" required>
+
+    <label for="id_is_staff">نقش:</label>
+    <select name="is_staff" id="id_is_staff" required>
+      <option value="">انتخاب کنید</option>
+      <option value="true">صندوق‌دار</option>
+      <option value="false">قفسه‌دار</option>
+    </select>
+
+    <button type="submit" class="btn-submit">ثبت کارمند</button>
+  </form>
+</div>
+
+<div class="staff-table">
+  <h2 class="form-title">👥 لیست کارکنان</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>نام</th>
+        <th>کد ملی</th>
+        <th>شماره تماس</th>
+        <th>ایمیل</th>
+        <th>نقش</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody id="staff-list">
+      {% for staff in staff_list %}
+      <tr data-staff-id="{{ staff.id }}">
+        <td class="staff-full-name">{{ staff.full_name }}</td>
+        <td class="staff-national-code">{{ staff.national_code }}</td>
+        <td class="staff-phone">{{ staff.phone }}</td>
+        <td class="staff-email">{{ staff.email }}</td>
+        <td class="staff-role">{% if staff.is_staff %}صندوق‌دار{% else %}قفسه‌دار{% endif %}</td>
+        <td>
+          <button class="action-btn btn-edit" onclick="editStaff({{ staff.id }})">ویرایش</button>
+          <button class="action-btn btn-delete" onclick="deleteStaff({{ staff.id }})">حذف</button>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6">هیچ کارمندی ثبت نشده است.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+  // ================= ثبت کارمند جدید =================
+  document.getElementById("staff-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch("{% url 'add_staff' %}", {
+  method: "POST",
+  body: new FormData(form),
+  headers: { "X-CSRFToken": csrfToken },
+  credentials: "same-origin"
+})
+.then(res => res.json())
+.then(data => {
+  if(data.status === "success"){
+    Swal.fire({ icon:"success", title:"کارمند ثبت شد", timer:1500, showConfirmButton:false })
+      .then(()=> location.reload());
+  } else {
+    Swal.fire("خطا", data.message || "مشکلی پیش آمد", "error");
+  }
+})
+.catch(err=>{
+  console.error(err);
+  Swal.fire("خطا", "ارتباط با سرور برقرار نشد!", "error");
+});
+
+  });
+
+  // ================= ویرایش کارمند =================
+  function editStaff(id){
+    const row = document.querySelector(`tr[data-staff-id="${id}"]`);
+    const full_name = row.querySelector(".staff-full-name").innerText.trim();
+    const national_code = row.querySelector(".staff-national-code").innerText.trim();
+    const phone = row.querySelector(".staff-phone").innerText.trim();
+    const email = row.querySelector(".staff-email").innerText.trim();
+    const roleText = row.querySelector(".staff-role").innerText.trim();
+    const is_staff_val = roleText === "صندوق‌دار";
+
+    Swal.fire({
+      title: "ویرایش کارمند",
+      html: `
+        <input id="swal-full-name" class="swal2-input" placeholder="نام" value="${full_name}">
+        <input id="swal-national-code" class="swal2-input" placeholder="کد ملی" value="${national_code}">
+        <input id="swal-phone" class="swal2-input" placeholder="شماره تماس" value="${phone}">
+        <input id="swal-email" class="swal2-input" placeholder="ایمیل" value="${email}">
+        <select id="swal-is-staff" class="swal2-input">
+          <option value="true" ${is_staff_val ? "selected":""}>صندوق‌دار</option>
+          <option value="false" ${!is_staff_val ? "selected":""}>قفسه‌دار</option>
+        </select>
+      `,
+      showCancelButton:true,
+      confirmButtonText:"ثبت تغییرات",
+      cancelButtonText:"لغو",
+      preConfirm: ()=>({
+        full_name: document.getElementById("swal-full-name").value,
+        national_code: document.getElementById("swal-national-code").value,
+        phone: document.getElementById("swal-phone").value,
+        email: document.getElementById("swal-email").value,
+        is_staff: document.getElementById("swal-is-staff").value === "true"
+      })
+    }).then(result=>{
+      if(result.isConfirmed){
+        fetch(`/staff/edit/${id}/`,{
+          method:"POST",
+          headers:{"Content-Type":"application/json", "X-CSRFToken":csrfToken},
+          body: JSON.stringify(result.value)
+        })
+        .then(res=>res.json())
+        .then(data=>{
+          if(data.status==="success"){
+            Swal.fire("انجام شد","تغییرات ذخیره شد","success").then(()=>location.reload());
+          } else {
+            Swal.fire("خطا", data.message || "مشکلی پیش آمد","error");
+          }
+        }).catch(err=>{
+          console.error(err);
+          Swal.fire("خطا","ارتباط با سرور برقرار نشد.","error");
+        });
+      }
+    });
+  }
+
+  // ================= حذف کارمند =================
+  function deleteStaff(id){
+    Swal.fire({
+      title:"حذف کارمند",
+      text:"آیا مطمئن هستید که می‌خواهید این کارمند را حذف کنید؟",
+      icon:"warning",
+      showCancelButton:true,
+      confirmButtonColor:"#d33",
+      cancelButtonColor:"#aaa",
+      confirmButtonText:"بله، حذف کن",
+      cancelButtonText:"لغو"
+    }).then(result=>{
+      if(result.isConfirmed){
+        fetch(`/staff/delete/${id}/`,{
+          method:"POST",
+          headers:{"X-CSRFToken":csrfToken},
+          credentials:"same-origin"
+        })
+        .then(res=>res.json())
+        .then(data=>{
+          if(data.status==="success"){
+            Swal.fire("حذف شد!","کارمند با موفقیت حذف شد.","success").then(()=>location.reload());
+          } else {
+            Swal.fire("خطا", data.message || "حذف انجام نشد.","error");
+          }
+        }).catch(err=>{
+          console.error(err);
+          Swal.fire("خطا","ارتباط با سرور برقرار نشد.","error");
+        });
+      }
+    });
+  }
+</script>
+{% endblock %}

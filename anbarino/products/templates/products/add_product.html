@@ -1,0 +1,160 @@
+{% extends "products/base.html" %}
+{% load static %}
+
+{% block title %}افزودن محصول{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'products/css/add_product.css' %}">
+<style>
+  /* کادر فرم */
+  .form-wrapper {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    direction: rtl;
+    text-align: right;
+  }
+
+  .form-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    color: #333;
+  }
+
+  .product-form label {
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+    color: #555;
+  }
+
+  .product-form input,
+  .product-form textarea,
+  .product-form select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .btn-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    font-size: 1.1rem;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-submit:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+  <h2 class="form-title">➕ افزودن محصول جدید</h2>
+
+  <form id="product-form" method="post" enctype="multipart/form-data" class="product-form">
+    {% csrf_token %}
+
+    <label for="id_name">نام محصول:</label>
+    {{ form.name }}
+
+    <label for="id_price">قیمت (تومان):</label>
+    {{ form.price }}
+
+    <label for="id_quantity">موجودی:</label>
+    {{ form.quantity }}
+
+    <label for="id_image">تصویر محصول:</label>
+    {{ form.image }}
+
+    <button type="submit" class="btn-submit">ثبت محصول</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // همه فیلدهای فرم: text, number, file, textarea, select
+    const formFields = document.querySelectorAll(
+        "#product-form input[type='text'], " +
+        "#product-form input[type='number'], " +
+        "#product-form input[type='file'], " +
+        "#product-form textarea, " +
+        "#product-form select"
+    );
+
+    formFields.forEach(field => {
+        field.setAttribute("required", "required");
+    });
+
+    document.getElementById("product-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+        let form = e.target;
+
+        if (!form.checkValidity()) {
+            Swal.fire({
+                icon: "warning",
+                title: "فیلدهای الزامی کامل نشده‌اند",
+                text: "لطفاً همه فیلدها را پر کنید."
+            });
+            return;
+        }
+
+        let formData = new FormData(form);
+
+        fetch("{% url 'add_product' %}", {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "محصول ثبت شد 🎉",
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                form.reset();
+            } else {
+                let errors = Object.values(data.errors).flat().join("\n");
+                Swal.fire({
+                    icon: "error",
+                    title: "خطا در ثبت",
+                    text: errors
+                });
+            }
+        })
+        .catch(err => {
+            Swal.fire({
+                icon: "error",
+                title: "خطا",
+                text: "ارتباط برقرار نشد!"
+            });
+            console.error(err);
+        });
+    });
+});
+</script>
+{% endblock %}

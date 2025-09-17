@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from products.models import Product
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 # Create your models here.
 
@@ -37,6 +38,7 @@ class Transaction(models.Model):
     quantity = models.PositiveIntegerField()
     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPES)
     is_approved = models.BooleanField(default=False)
+    is_approved2 = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -62,8 +64,8 @@ class Transaction(models.Model):
             ).aggregate(models.Sum('quantity'))['quantity__sum'] or 0
 
 
-            if total_purchased == 0 or self.quantity > total_purchased:
-                raise ValidationError(f"{self.user.username} این محصول را نخریده یا تعداد وارد شده بیشتر از مقدار خریداری‌شده است!")
+            if total_purchased == 0:
+                raise ValidationError(f"{self.user.username} این محصول را نخریده است!")
 
     def save(self, *args, **kwargs):
         self.clean()

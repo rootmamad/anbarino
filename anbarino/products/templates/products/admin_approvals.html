@@ -1,0 +1,49 @@
+{% extends 'products/base.html' %}
+{% load static %}
+
+{% block title %}تأییدی‌ها توسط ادمین{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'products/css/admin_approvals.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="section-heading text-center">تأییدی‌ها توسط ادمین</h2>
+
+{% if transactions %}
+<div class="approval-container">
+  {% for item in transactions %}
+  <div class="approval-card {% if item.is_approved2 %}approved{% else %}rejected{% endif %}">
+    <div class="approval-header">
+      {% if item.transaction_type == 'damaged' %}
+        <span class="approval-type">خرابی</span>
+      {% elif item.transaction_type == 'returned' %}
+        <span class="approval-type">مرجوعی</span>
+      {% elif item.transaction_type == 'purchase' %}
+        <span class="approval-type">خرید</span>
+      {% endif %}
+    </div>
+    <div class="approval-body">
+      <p class="product-name">{{ item.product.name }}</p>
+      <p class="product-quantity">تعداد: {{ item.quantity }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-center">هیچ تراکنشی برای تایید وجود ندارد.</p>
+{% endif %}
+
+<script >
+  document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".approval-card").forEach(card => {
+    card.addEventListener("click", function() {
+      this.classList.toggle("highlight");
+    });
+  });
+});
+
+
+
+</script>
+{% endblock %}

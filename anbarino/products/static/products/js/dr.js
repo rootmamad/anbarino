@@ -1,4 +1,3 @@
-// توابع باید اول بیاد
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -8,42 +7,6 @@ function getCookie(name) {
     });
   }
   return cookieValue;
-}
-function updateCartSummary() {
-  let totalPrice = 0;
-  let totalQuantity = 0;
-
-  // موجودی واقعی یوزر از data-amount
-  const amountText = document.querySelector('.amount-text');
-  const userStock = Number(amountText.dataset.amount?.trim() , 0);
-
-
-  console.log("موجودی واقعی کاربر:", userStock); // نمایش موجودی در کنسول
-
-  document.querySelectorAll('.cart-product-card').forEach(card => {
-    const price = parseInt(card.querySelector('.price').textContent.replace(/\D/g, '')) || 0;
-    const quantity = parseInt(card.querySelector('.quantity').textContent) || 0;
-
-    totalPrice += price * quantity;
-    totalQuantity += quantity;
-  });
-
-  const totalPriceEl = document.getElementById('total-price');
-  const totalQuantityEl = document.getElementById('total-quantity');
-  const submitBtn = document.getElementById('submit-cart');
-
-  totalPriceEl.textContent = totalPrice.toLocaleString();
-  totalQuantityEl.textContent = totalQuantity;
-   console.log(totalPrice,userStock,typeof(totalQuantity),typeof(userStock))
-  if(totalPrice > userStock){
-    totalPriceEl.style.color = 'red';
-    totalQuantityEl.style.color = 'red';
-    submitBtn.disabled = true;
-  } else {
-    totalPriceEl.style.color = 'green';
-    totalQuantityEl.style.color = 'green';
-    submitBtn.disabled = false;
-  }
 }
 
 
@@ -67,7 +30,6 @@ function updateEmptyState() {
 
 document.addEventListener('DOMContentLoaded', function () {
   const cartContainer = document.querySelector('.cart-container');
-   updateCartSummary();
   const submitBtn = document.getElementById('submit-cart');
   if (submitBtn) {
     submitBtn.addEventListener('click', () => {
@@ -110,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
       q++;
       quantitySpan.textContent = q;
       quantityInput.value = q;
-      updateCartSummary();
+
     });
 
     minusBtn.addEventListener('click', () => {
@@ -144,47 +106,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
-  updateCartSummary();
+
 });
 
   });
-});
-
-
-
-
-document.addEventListener("DOMContentLoaded", function() {
-
-  // همه فرم‌های تایید/رد ادمین
-  document.querySelectorAll(".inline-form").forEach(form => {
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const formData = new FormData(this);
-      const url = this.getAttribute("action");
-      const card = this.closest(".cart-product-card");
-
-      fetch(url, {
-        method: "POST",
-        body: formData,
-        headers: { "X-Requested-With": "XMLHttpRequest" }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "approved") {
-          Swal.fire("تایید شد!", data.message, "success");
-          if(card) card.remove();
-        } else if (data.status === "rejected") {
-          Swal.fire("رد شد!", data.message, "error");
-          if(card) card.remove();
-        } else {
-          Swal.fire("خطا", data.message, "warning");
-        }
-      })
-      .catch(() => {
-        Swal.fire("خطا", "ارتباط با سرور برقرار نشد!", "error");
-      });
-    });
-  });
-
 });
