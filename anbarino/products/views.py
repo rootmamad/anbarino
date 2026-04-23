@@ -186,9 +186,7 @@ def damaged_action(request, item_id):
         try:
             if action == "approve":
                 transaction.is_approved2 = True
-                print("vay")
                 transaction.save()
-                print("yes")
                 return JsonResponse({"status": "approved", "message": f"{transaction.product.name} تایید شد ✅"})
             elif action == "reject":
                 transaction.is_approved2 = False
@@ -209,9 +207,7 @@ def purchase_action(request, item_id):
         try:
             if action == "approve":
                 transaction.is_approved2 = True
-                print("vay")
                 transaction.save()
-                print("yes")
                 return JsonResponse({"status": "approved", "message": f"{transaction.product.name} تایید شد ✅"})
             elif action == "reject":
                 transaction.is_approved2 = False
@@ -324,7 +320,7 @@ def remove_from_cart(request, product_id):
         transaction.delete()
         return JsonResponse({'status': 'ok'})
     except Transaction.DoesNotExist:
-        print("transaction does not exist")
+        print("transaction does not exist. ")
         return JsonResponse({'status': 'not_found'}, status=404)
 
 
@@ -413,7 +409,6 @@ def get_order_summary(user):
         elif trans.transaction_type == Transaction.DAMAGED and not  trans.is_approved:
             order_summary[pid]['damaged_pending'] += trans.quantity
         elif trans.transaction_type == Transaction.RETURNED and trans.is_approved:
-            print(trans,trans.quantity ,trans.is_approved,"zanet")
             order_summary[pid]['returned'] += trans.quantity
         elif trans.transaction_type == Transaction.RETURNED and not trans.is_approved:
             order_summary[pid]['returned_pending'] += trans.quantity
@@ -430,7 +425,6 @@ def get_order_summary(user):
 @login_required(login_url='/login/')
 def orders_view(request):
     orders = get_order_summary(request.user)
-    print(orders)
     return render(request, 'products/orders.html', {
         'orders': orders
     })
@@ -470,11 +464,9 @@ def returned_finalize(request):
             transaction_type=Transaction.PURCHASE,
             is_approved=True
         ).aggregate(Sum('quantity'))['quantity__sum'] or 0
-        print(total_purchased,new_quantity,"usp")
         if total_purchased == 0:
             errors[item.id] = f"شما محصول «{item.product.name}» را قبلاً نخریده‌اید."
         elif new_quantity > total_purchased:
-            print("salammm")
             errors[item.id] = f"تعداد مرجوعی برای «{item.product.name}» از مقدار خریداری‌شده بیشتر است."
 
     if errors:
@@ -525,7 +517,6 @@ def start_returned_request(request):
 
         approved_purchases = Transaction.objects.filter(user=request.user,product=product,transaction_type = Transaction.PURCHASE, is_approved=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
         approved_returned = Transaction.objects.filter(user=request.user, product=product,transaction_type = Transaction.RETURNED, is_approved=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
-        print(approved_purchases, approved_returned,quantity,"zan")
         if approved_purchases - approved_returned < quantity:
             raise ValueError("تعداد مرجوعی بیش از موجودی است.")
         last = Transaction.objects.filter(user=request.user,product_id=product_id,transaction_type = Transaction.RETURNED, is_approved=False).order_by('-created_at').first()
@@ -554,18 +545,13 @@ def start_damaged_request(request):
         return JsonResponse({'redirect': '/login/?next=' + request.path})
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity')
-    print(2)
     try:
         product = Product.objects.get(id=product_id)
         quantity = int(quantity)
         approved_purchases = Transaction.objects.filter(user=request.user,transaction_type = Transaction.PURCHASE, product=product, is_approved=True).aggregate(Sum('quantity'))[ 'quantity__sum'] or 0
         approved_damaged = Transaction.objects.filter(user=request.user, product=product,transaction_type = Transaction.DAMAGED, is_approved=True).aggregate(Sum('quantity'))[ 'quantity__sum'] or 0
-        print(3)
-        print(approved_purchases, approved_damaged, quantity,5)
         if approved_purchases - approved_damaged < quantity:
-            print(approved_purchases,approved_damaged,quantity,"444454545")
             raise ValueError("تعداد خرابی بیش از موجودی است.")
-        print(4)
         if quantity < 0:
             raise ValueError("Invalid quantity")
         last = Transaction.objects.filter(user=request.user,product_id=product_id,transaction_type = Transaction.DAMAGED, is_approved=False).order_by('-created_at').first()
@@ -579,7 +565,6 @@ def start_damaged_request(request):
                 transaction_type=Transaction.DAMAGED,
                 is_approved=False
         ).save()
-        print("finish")
     except ValidationError as e:
         return JsonResponse({'status': 'error', 'message': str(e.message)}, status=400)
     except Exception as e:
@@ -589,14 +574,12 @@ def start_damaged_request(request):
 
 def get_product(request,pk):
     product = get_object_or_404(Product, id=pk)
-    print(product.returned_quantity,"oi")
     if request.user.is_authenticated:
         orders = get_order_summary(request.user)
         order = ""
         for item in orders:
             if item["product"]==product:
                 order = item
-        print(order,orders,product)
         return render(request, 'products/product_detail.html', {"product":product, "order":order})
     else:
         return render(request, 'products/product_detail.html', {"product":product})
@@ -609,7 +592,6 @@ def start_purchase(request):
         return JsonResponse({'redirect': '/login/?next=' + request.path})
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity')
-    print(product_id,quantity,"ooo")
     try:
         product = Product.objects.get(id=product_id)
         quantity = int(quantity)
@@ -618,9 +600,7 @@ def start_purchase(request):
 
 
         balance = UserBalance.objects.get(user=request.user).balance
-        print(balance,quantity,product.price,"yt")
         if balance < quantity * product.price:
-            print("kp")
             raise ValidationError("موجودی کافی ندارید.")
 
         last = Transaction.objects.filter(user=request.user, product_id=product_id,
@@ -642,7 +622,6 @@ def start_purchase(request):
         return JsonResponse({'status': 'error', 'message': error_message}, status=400)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-    print(request.POST)
     return JsonResponse({'status': 'success'})
 
 
@@ -701,7 +680,6 @@ def user_stock(request):
     return {}
 
 def index_all(request):
-    print("salam")
     for product in Product.objects.all():
 
         ProductDocument(meta={'id': product.id}, name=product.name).save()
@@ -720,7 +698,6 @@ def search_products(request):
 
     s = ProductDocument.search().query(q)
     response = s.execute()
-    print(response,"456")
     results = []
     # فچ از دیتابیس واقعی بر اساس ID
     for r in response:
