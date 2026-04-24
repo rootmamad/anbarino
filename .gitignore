@@ -1,0 +1,84 @@
+.env
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+
+
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+
+
+.env.*
+
+# PyCharm
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.nox/
+*.cover
+
+
+# pipenv
+Pipfile.lock
+
+# pytest
+.cache
+.pytest_cache/
+
+
+
+# Gunicorn
+gunicorn.pid
+
+staticfiles/
+
+
+# Backup files
+*.bak
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Django migrations (گاهی می‌خواهند مدیریت شوند، بعضا کش می‌شوند)
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db

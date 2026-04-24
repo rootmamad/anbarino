@@ -1,0 +1,269 @@
+{% extends "products/base.html" %}
+{% load static %}
+{% block title %}ویرایش محصول{% endblock %}
+
+{% block extra_head %}
+<style>
+  .form-wrapper {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    text-align: right;
+  }
+
+  .form-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    color: #333;
+  }
+
+  .product-form label {
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+    color: #555;
+  }
+
+  .product-form input,
+  .product-form textarea,
+  .product-form select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .current-image {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .current-image img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    font-size: 1.1rem;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-submit:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-delete {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-delete:hover {
+    background: #a71d2a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+  <h2 class="form-title">✏️ ویرایش محصول</h2>
+
+  <form
+    id="edit-product-form"
+    method="post"
+    enctype="multipart/form-data"
+    action="{% url 'edit_product' form.instance.id %}"
+    class="product-form"
+  >
+    {% csrf_token %}
+
+    <label for="id_name">نام محصول:</label>
+    <input
+      type="text"
+      id="id_name"
+      name="name"
+      value="{{ form.instance.name }}"
+      required
+    />
+
+    <label for="id_price">قیمت (تومان):</label>
+    <input
+      type="number"
+      id="id_price"
+      name="price"
+      value="{{ form.instance.price }}"
+      min="0"
+      required
+    />
+
+    <label for="id_quantity">موجودی:</label>
+    <input
+      type="number"
+      id="id_quantity"
+      name="quantity"
+      value="{{ form.instance.quantity }}"
+      min="0"
+      required
+    />
+
+    <label>تصویر فعلی محصول:</label>
+    <div class="current-image">
+      {% if form.instance.image %}
+      <img src="{{ form.instance.image.url }}" alt="تصویر محصول" />
+      {% else %}
+      <img src="{% static 'products/img/placeholder.png' %}" alt="بدون تصویر" />
+      {% endif %}
+    </div>
+
+    <label for="id_image">انتخاب تصویر جدید (اختیاری):</label>
+    <input type="file" id="id_image" name="image" accept="image/*" />
+
+    <button type="submit" class="btn-submit">ثبت تغییرات</button>
+  </form>
+
+  <button
+    id="delete-product-btn"
+    class="btn-delete"
+    data-delete-url="{% url 'delete_product' form.instance.id %}"
+  >
+    حذف محصول
+  </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+fetch(form.action, {
+  method: "POST",
+  body: formData,
+  headers: {
+    "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+  }
+})
+.then(async res => {
+  const text = await res.text();
+  console.log("Server response:", text); // لاگ کامل
+  try {
+    return JSON.parse(text); // تلاش برای تبدیل به JSON
+  } catch(err) {
+    // اگر JSON نبود
+    return {status: "error", message: "پاسخ سرور نامعتبر است"};
+  }
+})
+.then(data => {
+  console.log("Parsed data:", data);
+  if (data.status === "success") {
+    Swal.fire({icon:"success", title:"تغییرات ثبت شد", text:data.message, timer:2000, showConfirmButton:false})
+    .then(() => {
+      window.location.href = "{% url 'product_list' %}";
+  } else {
+    let errors = data.errors ? Object.values(data.errors).flat().join("\n") : data.message;
+    Swal.fire({
+      icon: "error",
+      title: "خطا",
+      text: errors || "مشکلی پیش آمد"
+    });
+  }
+})
+.catch(err => {
+  console.error("Fetch error:", err);
+  Swal.fire({
+    icon: "error",
+    title: "خطا",
+    text: "ارتباط با سرور برقرار نشد!"
+  });
+});
+
+  // ----------------- حذف محصول -----------------
+  deleteBtn.addEventListener("click", function () {
+    const deleteUrl = this.dataset.deleteUrl;
+
+    console.log("=== درخواست حذف محصول ===", deleteUrl);
+
+    Swal.fire({
+      title: "آیا مطمئن هستید؟",
+      text: "این عملیات غیرقابل بازگشت است!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "بله، حذف کن!",
+      cancelButtonText: "انصراف",
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+
+      fetch(deleteUrl, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          console.log("Delete response status:", response.status);
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Delete data received:", data);
+          if (data.status === "success") {
+            Swal.fire({
+              icon: "success",
+              title: "حذف شد",
+              text: data.message,
+              showConfirmButton: false,
+              timer: 2000,
+            }).then(() => {
+              window.location.href = "{% url 'product_list' %}";
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "خطا در حذف",
+              text: data.message || "عملیات حذف انجام نشد",
+            });
+          }
+        })
+        .catch((err) => {
+          console.error("Delete fetch error:", err);
+          Swal.fire({
+            icon: "error",
+            title: "خطا",
+            text: "ارتباط برقرار نشد!",
+          });
+        });
+    });
+  });
+});
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,68 @@
+.approval-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.approval-card {
+  width: 220px;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.approval-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.approval-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.approval-type {
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: white;
+}
+
+.approved {
+  background-color: #d4edda;
+  border-left: 6px solid #28a745;
+}
+
+.approved .approval-type {
+  background-color: #28a745;
+}
+
+.rejected {
+  background-color: #f8d7da;
+  border-left: 6px solid #dc3545;
+}
+
+.rejected .approval-type {
+  background-color: #dc3545;
+}
+
+.approval-body {
+  font-size: 0.95rem;
+}
+
+.product-name {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.product-quantity {
+  color: #555;
+}
+.highlight {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}

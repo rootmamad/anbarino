@@ -1,0 +1,128 @@
+{% extends 'products/base.html' %}
+
+{% block title %}درباره ما{% endblock %}
+
+{% block extra_head%}
+<style>
+
+/* style.css */
+
+body {
+  font-family: Vazir, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main.container {
+  flex-grow: 1;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.about-page {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-page h1 {
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.about-page h2 {
+  color: #0056b3;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+.about-page p {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.about-page ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.about-page ul li {
+  position: relative;
+  padding-right: 20px;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.about-page ul li::before {
+  content: "\f00c"; /* آیکون تیک فونت‌آوسام */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #28a745;
+}
+
+/* ریسپانسیو */
+@media (max-width: 576px) {
+  .about-page {
+    padding: 20px;
+    margin: 15px;
+  }
+}
+
+
+</style>
+
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="about-page py-4">
+  <h1 class="mb-4 text-center">درباره ما</h1>
+
+  <p>
+    ما یک تیم متخصص در زمینه مدیریت انبار و سیستم‌های لجستیک هستیم که با هدف
+    بهبود کارایی و دقت در انبارداری فعالیت می‌کنیم. سال‌ها تجربه ما در این حوزه
+    به ما امکان داده تا راهکارهای نوین و کارآمدی را برای کسب‌وکارها ارائه دهیم.
+  </p>
+
+  <h2 class="mt-5">ماموریت ما</h2>
+  <p>
+    هدف ما این است که با استفاده از فناوری‌های مدرن، فرآیندهای انبارداری را ساده،
+    سریع و دقیق کنیم تا مشتریان ما بتوانند بر رشد کسب‌وکار خود تمرکز کنند.
+  </p>
+
+  <h2 class="mt-5">مرامکده</h2>
+  <p>
+    مرامکده متشکل از کارشناسان فناوری اطلاعات، مدیریت زنجیره تأمین و لجستیک است که
+    هر یک با تخصص خود به بهبود محصولات و خدمات ما کمک می‌کنند.
+  </p>
+
+  <h2 class="mt-5">تماس با ما</h2>
+  <p>
+    اگر سوال یا پیشنهادی دارید، خوشحال می‌شویم با ما در تماس باشید:
+  </p>
+  <ul>
+    <li>ایمیل: MaramKade@gmail.com</li>
+    <li>تلفن: ۰۲۴-۱۲۳۴۵۶۷۸</li>
+    <li>آدرس: زنجان - شهرک
+        کارمندان - خیابان دوازدهم - ساختمان انبارینو</li>
+  </ul>
+</div>
+{% endblock %}

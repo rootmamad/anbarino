@@ -1,0 +1,122 @@
+{% extends 'products/base.html' %}
+{% load static %}
+{% block title %}لیست محصولات{% endblock %}
+
+{% block extra_head %}
+<style>
+  body {
+    background: #f4f8fb;
+  }
+  .products-container {
+    max-width: 1200px;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  .product-row {
+    display: flex;
+    align-items: stretch;
+    background: linear-gradient(to right, #ffffff, #eef6ff);
+    border-radius: 24px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .product-row:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  }
+  .product-image-wrapper {
+    width: 320px;
+    background: #e3f2fd;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+  .product-image-wrapper img.main-img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+  }
+  .product-image-wrapper img.qr-code {
+    width: 60px;
+    margin-top: 1rem;
+    opacity: 0.9;
+  }
+  .product-info {
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .product-info h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #1a237e;
+  }
+  .product-info p {
+    font-size: 16px;
+    margin: 4px 0;
+    color: #333;
+  }
+  .btn-detail {
+    margin-top: 1.2rem;
+    align-self: flex-start;
+    padding: 10px 24px;
+    background-color: #2196f3;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  .btn-detail:hover {
+    background-color: #1976d2;
+    transform: scale(1.05);
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-5">📦 لیست محصولات</h2>
+<div class="products-container">
+  {% for product in products %}
+  <div class="product-row" style="animation-delay: {{ forloop.counter0|add:'0.1' }}s">
+    <div class="product-image-wrapper">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-img">
+      <img src="{{ product.qr_code.url }}" alt="QR Code" class="qr-code">
+    </div>
+    <div class="product-info">
+      <div>
+        <h3>{{ product.name }}</h3>
+        <p>شناسه محصول: {{ product.id }}</p>
+        <p>موجودی: {{ product.quantity }}</p>
+        <p>تعداد خریداری‌شده: {{ product.purchased_quantity }}</p>
+        <p>تعداد مرجوعی: {{ product.returned_quantity }}</p>
+        <p>تعداد خرابی: {{ product.damaged_quantity }}</p>
+      </div>
+      <a href="{% url 'get_product' product.id %}" class="btn-detail">👁 مشاهده جزئیات</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

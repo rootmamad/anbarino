@@ -1,0 +1,58 @@
+{% extends "products/base.html" %}
+{% load static %}
+
+{% block title %}نتایج جستجو{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'products/css/search.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="search-container">
+
+  <!-- عنوان -->
+  <h2 class="search-title">نتایج برای: <span>"{{ query }}"</span></h2>
+
+  <!-- فرم سرچ بزرگ -->
+  <form class="search-form" action="{% url 'search_results' %}" method="GET">
+    <input type="search" name="q" value="{{ query }}" class="search-input"
+           placeholder="نام محصول را وارد کنید..." aria-label="جستجو">
+    <button class="search-btn" type="submit">🔍 جستجو</button>
+  </form>
+
+  <!-- شبکه نتایج -->
+  <div class="results-grid">
+    {% if results %}
+      {% for product in results %}
+        <div class="product-card">
+
+          <!-- تصویر محصول -->
+          <div class="image-wrapper">
+            {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+              <img src="{% static 'products/img/placeholder.png' %}" alt="بدون تصویر">
+            {% endif %}
+          </div>
+
+          <!-- متن و اطلاعات محصول -->
+          <div class="card-body">
+            <h5 class="product-title">{{ product.name }}</h5>
+            {% if product.price %}
+              <p class="product-price">💰 {{ product.price }} تومان</p>
+            {% endif %}
+            {% if product.quantity %}
+              <p class="product-qty">📦 موجودی: {{ product.quantity }}</p>
+            {% endif %}
+            <a href="/product/{{ product.id }}/" class="view-btn">مشاهده محصول</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-results">هیچ محصولی یافت نشد 😢</p>
+    {% endif %}
+  </div>
+</div>
+
+<script src="{% static 'products/js/search.js' %}"></script>
+{% endblock %}
