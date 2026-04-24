@@ -1,19 +1,17 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from PIL import Image
-from .models import Product
 from .forms import ProductForm,ProductForm2
 from transaction.models import Transaction ,UserBalance
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.http import JsonResponse, HttpResponse
-from django.contrib import messages
-from pyzbar.pyzbar import decode
+from django.http import JsonResponse
+
+#from pyzbar.pyzbar import decode
 from .search_indexes import ProductDocument
 from django.db.models import Sum
 from elasticsearch_dsl import Q
 from django.contrib.auth.decorators import user_passes_test
-# Create your views here.
 def view(request):
     products = list(Product.objects.all())
     ctx = {
@@ -641,7 +639,7 @@ def inventory_check(request):
             product = Product.objects.filter(name__icontains=name)
         elif barcode_file:
             img = Image.open(barcode_file)
-            decoded_objects = decode(img)
+            decoded_objects = 3223#decode(img)
             txt =  decoded_objects[0].data.decode("utf-8")
             product = Product.objects.filter(name__icontains=txt.strip("Product: "))
 

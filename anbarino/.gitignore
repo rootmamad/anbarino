@@ -4,8 +4,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
-*.so
+
 
 # Distribution / packaging
 .Python
@@ -32,8 +31,7 @@ wheels/
 *.pyo
 *.sqlite3
 
-# ENV and secrets
-.env
+
 .env.*
 
 # PyCharm
@@ -73,10 +71,8 @@ docker-compose.prod.yaml
 # Gunicorn
 gunicorn.pid
 
-# Static files (در deployment استاتیک‌ها معمولا جمع‌آوری می‌شوند)
 staticfiles/
 
-# Media folder (در صورت استفاده)
 media/
 
 # Backup files
