@@ -73,8 +73,7 @@ staticfiles/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
-
-# Django migrations (گاهی می‌خواهند مدیریت شوند، بعضا کش می‌شوند)
+*.zip
 */migrations/*.pyc
 */migrations/*.pyo
 */migrations/__pycache__/
