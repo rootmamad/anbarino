@@ -5,3 +5,5 @@ django-environ
 qrcode[pil]
 Pillow
 elasticsearch-dsl>=8,<9
+gunicorn==20.1.0
+setuptools==68.2.2

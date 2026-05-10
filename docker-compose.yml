@@ -1,13 +1,79 @@
-version: "3.9"
+version: '3.9'
 
 services:
-  web:
+
+  traefik:
+    image: traefik:v2.11
+    container_name: traefik
+    ports:
+      - "81:80"
+      - "8082:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/traefik.yml:/traefik.yml:ro"
+      - "./traefik/acme.json:/acme.json"
+    command:
+      - "--configFile=/traefik.yml"
+    networks:
+      - anbarino_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`localhost`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$hsua8I3C$$1BlVYmIbGwJT1yaKDdHwa/"
+
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./staticfiles:/staticfiles:ro
+      - ./media:/media:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - django
+    networks:
+      - anbarino_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.anbarino.rule=Host(`localhost`)"
+      - "traefik.http.services.anbarino.loadbalancer.server.port=80"
+
+
+  django:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
+    container_name: django
     volumes:
-      - ./media:/app/media
+      - .:/app
+    environment:
+      - DEBUG=1
+      - DJANGO_SETTINGS_MODULE=anbarino.settings
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             gunicorn anbarino.wsgi:application --bind 0.0.0.0:8000"
+    networks:
+      - anbarino_network
+    expose:
+      - "8000"
+
+
+  elasticsearch:
+    image: elasticsearch:7.17.10
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - anbarino_network
+
+networks:
+  anbarino_network:
+    driver: bridge
+
+volumes:
+  esdata:
