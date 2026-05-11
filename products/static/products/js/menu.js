@@ -93,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     timeout = setTimeout(() => {
-      fetch(`/api/reindex/`).then(res => res.json()).then(data => {console.log(data)})
 
       fetch(`/api/search/?q=${encodeURIComponent(query)}`)
         .then(res => res.json())

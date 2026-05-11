@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.className = 'product-card';
                 card.innerHTML = `
                   <div class="image-wrapper">
-                    <img src="${product.image || '/static/products/img/placeholder.png'}" alt="${product.name}">
+                    <img src="${product.image.url || '/static/products/images/placeholder.png'}" alt="${product.name}">
                   </div>
                   <div class="card-body">
                     <h5 class="product-title">${product.name}</h5>

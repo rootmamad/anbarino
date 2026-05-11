@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'transaction',
     'admins',
     'accounts',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +139,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'http://localhost:9200'
-    }
+        'hosts': 'http://elasticsearch:9200',
+    },
 }

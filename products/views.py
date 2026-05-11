@@ -6,12 +6,17 @@ from transaction.models import Transaction ,UserBalance
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
-
+from django_elasticsearch_dsl.search import Search
+from .documents import ProductDocument
 #from pyzbar.pyzbar import decode
-from .search_indexes import ProductDocument
 from django.db.models import Sum
-from elasticsearch_dsl import Q
 from django.contrib.auth.decorators import user_passes_test
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
+from elasticsearch_dsl import Q
+
+
 def view(request):
     products = list(Product.objects.all())
     ctx = {
@@ -650,22 +655,6 @@ def inventory_check(request):
 
 from .models import Product
 
-def search_results(request):
-    query = request.GET.get("q", "")
-    results = []
-
-    if query:
-        q = Q("match", name=query)
-        s = ProductDocument.search().query(q)
-        response = s.execute()
-
-        product_ids = [r.meta.id for r in response]
-        results = Product.objects.filter(id__in=product_ids)
-
-    return render(request, "products/search.html", {
-        "query": query,
-        "results": results,
-    })
 
 
 def user_stock(request):
@@ -677,39 +666,101 @@ def user_stock(request):
         return {'user_stock': stock}
     return {}
 
-def index_all(request):
-    for product in Product.objects.all():
-
-        ProductDocument(meta={'id': product.id}, name=product.name).save()
-
-    return JsonResponse({'status': 'all products indexed'})
 
 
 
 
+@cache_page(60 * 5)  # cache for 5 minutes
+@vary_on_headers('Authorization')
 def search_products(request):
-    query = request.GET.get('q', '')
-    if not query:
-        return JsonResponse({'error': 'Query is required'}, status=400)
+    query = request.GET.get('q', '').strip()
+    if len(query) < 2:
+        return JsonResponse({'results': []})
 
-    q = Q("match", name=query)
+    cache_key = f"search_{query}"
+    results = cache.get(cache_key)
+    if results is not None:
+        return JsonResponse({'results': results})
 
-    s = ProductDocument.search().query(q)
-    response = s.execute()
+    try:
+        search = ProductDocument.search()
+        search = search.query(
+        Q('bool', should=[
+            Q('match', name={'query': query, 'fuzziness': 'AUTO'}),
+            Q('match_phrase_prefix', name={'query': query}),
+            Q('match', brand={'query': query, 'fuzziness': 'AUTO'}),
+            Q('match', description={'query': query, 'fuzziness': 'AUTO', 'boost': 0.5})
+        ])
+    )
+        search = search[:20]
+        response = search.execute()
+        product_ids = [hit.meta.id for hit in response]
+        # This is the correct way to get the ID.
+        # Alternatively, you can use hit.meta['id']
+
+        products = Product.objects.filter(id__in=product_ids)
+        products_by_id = {p.id: p for p in products}
+        ordered_products = [products_by_id[int(pid)] for pid in product_ids if int(pid) in products_by_id]
+
+        results_json = []
+        for p in ordered_products:
+            product_data = {
+                'id': p.id,
+                'name': p.name,
+                'price': p.price,
+                'quantity': p.quantity,
+                'image': {'url': p.image.url if p.image else '/static/products/images/placeholder.png'}
+            }
+            results_json.append(product_data)
+
+        cache.set(cache_key, results_json, 60 * 5)
+        return JsonResponse({'results': results_json})
+    except Exception as e:
+        print(f"Elasticsearch error: {e}")
+        return JsonResponse({'error': 'Search temporarily unavailable'}, status=503)
+
+
+
+
+from django.shortcuts import render
+from django.core.cache import cache
+from elasticsearch_dsl import Q
+from .documents import ProductDocument
+from .models import Product
+
+def search_results(request):
+    query = request.GET.get("q", "").strip()
     results = []
-    # فچ از دیتابیس واقعی بر اساس ID
-    for r in response:
-        try:
-            product = Product.objects.get(id=r.meta.id)
-            results.append({
-                "id": product.id,
-                "name": product.name,
-                "image": product.image.url if product.image else None,
-                "price": product.price,
-                "quantity": product.quantity,
-            })
-        except Product.DoesNotExist:
-            continue
 
-    return JsonResponse({"results": results})
+    if query and len(query) >= 2:
+        cache_key = f"search_results_{query}"
+        results = cache.get(cache_key)
+        if results is not None:
+            return JsonResponse({'results': results})
+        if results is None:
+            try:
+                search = ProductDocument.search()
+                search = search.query(
+                    Q('bool', should=[
+                        Q('match', name={'query': query, 'fuzziness': 'AUTO'}),
+                        Q('match_phrase_prefix', name={'query': query}),
+                        Q('match', brand={'query': query, 'fuzziness': 'AUTO'}),
+                        Q('match', description={'query': query, 'fuzziness': 'AUTO', 'boost': 0.5})
+                    ])
+                )
+                search = search[:50]
+                response = search.execute()
 
+                product_ids = [hit.name for hit in response]
+                results = Product.objects.filter(name__in=product_ids)
+
+
+                cache.set(cache_key, results, 60 * 5)
+            except Exception as e:
+                print(f"Elasticsearch error in search_results: {e}")
+                results = []
+
+    return render(request, "products/search.html", {
+        "query": query,
+        "results": results,
+    })
